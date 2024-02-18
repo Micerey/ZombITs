@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class ZombITsMenu {
     public static void displayMenu() {
-        Scanner sc = new Scanner(System.in);
+        Scanner s = new Scanner(System.in);
         boolean exit = false;
         // int lives = 100;
 
@@ -16,22 +16,27 @@ public class ZombITsMenu {
                     "Game Menu\n 1:Check Map \n 2:Check Inventory \n 3:Player Information \n 4:Quit");
             // prompt user to choose in the menu
             System.out.print("Enter your choice: ");
-            int menuChoice = sc.nextInt();
 
+            while (!s.hasNextInt()) {
+                System.out.print("Invalid input. Please enter the correct value: ");
+                s.next();
+            }
             System.out.println();
+
+            int menuChoice = s.nextInt();
 
             switch (menuChoice) {
                 case 1: {
                     gameMap.displayMap();
 
                     System.out.println("Please enter the destination you want to move to: ");
-                    String destination = sc.nextLine();
+                    String destination = s.nextLine();
                     System.out.println("Moving to " + destination + "...");
 
                     // Additional logic for moving to the destination goes here
 
                     System.out.println("Please press enter to continue...");
-                    sc.nextLine();
+                    s.nextLine();
 
                     break;
                 }
@@ -57,7 +62,7 @@ public class ZombITsMenu {
                 case 4: {
                     System.out.println("Are you sure you want to quit the game? You're progress won't be saved.");
                     System.out.print("Quit the game. 1: Yes or 2: No? ");
-                    String exitChoice = sc.next();
+                    String exitChoice = s.next();
 
                     if (exitChoice.equals("1")) {
                         System.out.println("Exiting the game! Goodbye.");
@@ -78,11 +83,11 @@ public class ZombITsMenu {
                 }
 
                 default: {
-                    System.out.println("Game over!");
+                    System.out.println("Invalid input.");
                     break;
                 }
             }
         }
-        sc.close();
+        s.close();
     }
 }
