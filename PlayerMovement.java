@@ -1,28 +1,19 @@
 import java.util.Random;
 import java.util.Scanner;
 
-public class Distance_Stamina {
-    public static void main(String[] args) {
+public class PlayerMovement {
+    public static void moveWithinMap() {
         // Define the number of locations
         int numLocations = 6;
 
         // Define the names of locations
-        String[] locationNames = { "ICS New Bldg.", "Pavillion", "Covered Court", "Student Park", "Cafeteria",
-                "Clinic" };
+        String[] locationNames = { "ICS New Bldg.", "Pavilion", "Covered Court", "Student Park", "Cafeteria", "Clinic" };
 
         // Define the routes
-        String[][] routes = {
-                { "ICS New Bldg. to Student Park" },
-                { "Student Park to ICS New Bldg." },
-                { "Student Park to Pavillion" },
-                { "Pavillion to Student Park" },
-                { "Student Park to Cafeteria" },
-                { "Cafeteria to Student Park" },
-                { "Student Park to Clinic" },
-                { "Clinic to Student Park" },
-                { "Clinic to Covered Court" },
-                { "Covered Court to Clinic" }
-        };
+        String[][] routes = { { "ICS New Bldg. to Student Park" }, { "Student Park to ICS New Bldg." },
+                { "Student Park to Pavilion" }, { "Pavilion to Student Park" }, { "Student Park to Cafeteria" },
+                { "Cafeteria to Student Park" }, { "Student Park to Clinic" }, { "Clinic to Student Park" },
+                { "Clinic to Covered Court" }, { "Covered Court to Clinic" } };
 
         // Generate random distances for each consecutive pair of locations
         int[][] distances = generateRandomDistances(numLocations);
@@ -93,11 +84,18 @@ public class Distance_Stamina {
                 break;
             }
 
+            ZombieEncounter.encounterZombie();
+
+            // Check if the location has an unsolved math problem
+            if (!LocationMathProblems.hasSolvedProblem(locationNames[currentLocationIndex])) {
+                LocationMathProblems.generateMathProblem(locationNames[currentLocationIndex]);
+            }
+
             System.out.println(); // Blank line
         }
     }
 
-    public static int[][] generateRandomDistances(int numLocations) {
+    private static int[][] generateRandomDistances(int numLocations) {
         Random random = new Random();
         int[][] distances = new int[numLocations][numLocations];
 
@@ -115,7 +113,7 @@ public class Distance_Stamina {
         return distances;
     }
 
-    public static int decreaseStamina(int distance, int stamina) {
+    private static int decreaseStamina(int distance, int stamina) {
         // Decrease stamina by the distance
         stamina -= distance;
         // Ensure stamina doesn't go below 0
@@ -125,7 +123,7 @@ public class Distance_Stamina {
         return stamina;
     }
 
-    public static int getLocationIndex(String[] locationNames, String location) {
+    private static int getLocationIndex(String[] locationNames, String location) {
         for (int i = 0; i < locationNames.length; i++) {
             if (locationNames[i].equalsIgnoreCase(location)) {
                 return i;
