@@ -2,26 +2,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CountdownTimer {
-    private static boolean timeExpired = false;
+    private static Timer timer;
 
-    public static void main(String[] args) {
-        Questions.playGame();
-    }
-
-    public static void startTimer() {
-        timeExpired = false;
-        Timer timer = new Timer();
+    public static void startTimer(int seconds, TimerCallback callback) {
+        timer = new Timer(true);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Lost Life");
-                timeExpired = true;
+                callback.onTimerFinish();
                 timer.cancel();
             }
-        }, 15000);
+        }, seconds * 1000);
     }
 
-    public static boolean isTimeExpired() {
-        return timeExpired;
+    public static void cancelTimer() {
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 }
