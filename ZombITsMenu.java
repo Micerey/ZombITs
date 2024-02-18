@@ -2,41 +2,43 @@ import java.util.Scanner;
 
 public class ZombITsMenu {
     public static void displayMenu() {
-        Scanner s = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         boolean exit = false;
-        // int lives = 100;
 
-        // To display menu options
         System.out.println("Welcome to the ZombITs Game! Are you ready to test your wit and luck to survive?");
 
-        // Loop will continue unless the user wants to exit (exit becomes true)
         while (!exit) {
             System.out.println();
             System.out.println(
-                    "Game Menu\n 1:Check Map \n 2:Check Inventory \n 3:Player Information \n 4:Quit");
-            // prompt user to choose in the menu
+                    "Game Menu\n 1: Check Map \n 2: Check Inventory \n 3: Player Information \n 4: Quit");
             System.out.print("Enter your choice: ");
+            int menuChoice = sc.nextInt();
 
-            while (!s.hasNextInt()) {
-                System.out.print("Invalid input. Please enter the correct value: ");
-                s.next();
-            }
             System.out.println();
-
-            int menuChoice = s.nextInt();
 
             switch (menuChoice) {
                 case 1: {
+                    // Call the displayMap method from the gameMap class
                     gameMap.displayMap();
 
-                    System.out.println("Please enter the destination you want to move to: ");
-                    String destination = s.nextLine();
+                    // Call the moveWithinMap method from the PlayerMovement class
+                    PlayerMovement.moveWithinMap();
+
+                    System.out.println("Are you sure you want to exit?(Y/N): ");
+                    sc.nextLine(); // Consume the newline character left by sc.nextInt()
+                    String destination = sc.nextLine().trim();
+
+                    if (destination.equalsIgnoreCase("Y")) {
+                        System.out.println("Returning to ZombITs Menu...");
+                        break; // Break out of the case to return to the menu
+                    }
+
                     System.out.println("Moving to " + destination + "...");
 
                     // Additional logic for moving to the destination goes here
 
                     System.out.println("Please press enter to continue...");
-                    s.nextLine();
+                    sc.nextLine();
 
                     break;
                 }
@@ -60,21 +62,17 @@ public class ZombITsMenu {
                 }
 
                 case 4: {
-                    System.out.println("Are you sure you want to quit the game? You're progress won't be saved.");
+                    System.out.println("Are you sure you want to quit the game? Your progress won't be saved.");
                     System.out.print("Quit the game. 1: Yes or 2: No? ");
-                    String exitChoice = s.next();
+                    String exitChoice = sc.next();
 
                     if (exitChoice.equals("1")) {
                         System.out.println("Exiting the game! Goodbye.");
                         exit = true;
-                    }
-
-                    else if (exitChoice.equals("2")) {
+                    } else if (exitChoice.equals("2")) {
                         System.out.println("You are continuing to the game.");
                         System.out.println();
-                    }
-
-                    else {
+                    } else {
                         System.out.println("Invalid choice! You are continuing to the game.");
                         System.out.println();
                     }
@@ -83,11 +81,16 @@ public class ZombITsMenu {
                 }
 
                 default: {
-                    System.out.println("Invalid input.");
+                    System.out.println("Game over!");
                     break;
                 }
             }
         }
-        s.close();
+        sc.close();
+    }
+
+    public static void main(String[] args) {
+        // Uncomment the line below if you want to test the ZombITsMenu independently
+        displayMenu();
     }
 }
