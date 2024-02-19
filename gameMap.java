@@ -1,5 +1,5 @@
-public class GameMap2 {
-    public static void main(String[] args) {
+public class gameMap {
+    public static void displayMap() {
         System.out.println("____________________________________________________________________________________________________________________");
         System.out.println("|                                          _____________________                  _____________________             |");
         System.out.println("|                                          |                   |                  |                   |             |");
