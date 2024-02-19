@@ -29,7 +29,7 @@ public class PlayerMovement {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             // Display current location
-            System.out.println("Current Location: " + locationNames[currentLocationIndex]);
+            System.out.println("\nCurrent Location: " + locationNames[currentLocationIndex] + "\n");
 
             // Sort routes based on distance
             Arrays.sort(routes, Comparator.comparing(route -> {
@@ -49,7 +49,7 @@ public class PlayerMovement {
             }
 
             // Prompt user to choose a location
-            System.out.println("Enter the destination location (type 'exit' to quit): ");
+            System.out.println("\nEnter the destination location (type 'exit' to quit): ");
             String destination = scanner.nextLine().trim();
 
             // Check if the user wants to exit
