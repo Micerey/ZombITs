@@ -1,55 +1,51 @@
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 
 public class PlayerMovement {
-    private static final double MILES_TO_KM = 1.60934; // Conversion factor from miles to kilometers
-
     public static void moveWithinMap(Player player) {
-        // Define the number of locations
         int numLocations = 6;
-
-        // Define the names of locations
         String[] locationNames = { "ICS New Bldg.", "Pavilion", "Covered Court", "Student Park", "Cafeteria", "Clinic" };
-
-        // Define the routes
         String[][] routes = { { "ICS New Bldg. to Student Park" }, { "Student Park to ICS New Bldg." },
                 { "Student Park to Pavilion" }, { "Pavilion to Student Park" }, { "Student Park to Cafeteria" },
                 { "Cafeteria to Student Park" }, { "Student Park to Clinic" }, { "Clinic to Student Park" },
                 { "Clinic to Covered Court" }, { "Covered Court to Clinic" } };
-
-        // Generate random distances for each consecutive pair of locations
-        double[][] distances = generateRandomDistances(numLocations);
-
-        // Randomly select current location index
-        Random random = new Random();
-        int currentLocationIndex = random.nextInt(numLocations);
-
+        int[][] distances = generateRandomDistances(numLocations);
+        
         Scanner scanner = new Scanner(System.in);
+
+        // Check if the player already has a current location
+        String currentLocation = player.getCurrentLocation();
+        int currentLocationIndex;
+
+        if (currentLocation != null) {
+            // Player has a current location, find its index
+            currentLocationIndex = getLocationIndex(locationNames, currentLocation);
+        } else {
+            // Player doesn't have a current location, randomly select one
+            Random random = new Random();
+            currentLocationIndex = random.nextInt(numLocations);
+
+            // Set the current location in the player object
+            player.setCurrentLocation(locationNames[currentLocationIndex]);
+        }
+
         while (true) {
             // Display current location
-            System.out.println("\nCurrent Location: " + locationNames[currentLocationIndex] + "\n");
-
-            // Sort routes based on distance
-            Arrays.sort(routes, Comparator.comparing(route -> {
-                String[] parts = route[0].split(" to ");
-                return distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])];
-            }));
+            System.out.println("Current Location: " + locationNames[currentLocationIndex]);
 
             // Display possible routes from the current location
             System.out.println("Possible Routes from " + locationNames[currentLocationIndex] + ":");
             for (String[] route : routes) {
                 if (route[0].startsWith(locationNames[currentLocationIndex])) {
                     String[] parts = route[0].split(" to ");
-                    double distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames,
+                    int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames,
                             parts[1])];
-                    System.out.printf("%s, Distance: %.0f km\n", route[0], distance);
+                    System.out.println(route[0] + ", Distance: " + distance);
                 }
             }
 
             // Prompt user to choose a location
-            System.out.println("\nEnter the destination location (type 'exit' to quit): ");
+            System.out.println("Enter the destination location (type 'exit' to quit): ");
             String destination = scanner.nextLine().trim();
 
             // Check if the user wants to exit
@@ -76,13 +72,16 @@ public class PlayerMovement {
             int destinationIndex = getLocationIndex(locationNames, destination);
 
             // Get the distance between current location and destination
-            double distance = distances[currentLocationIndex][destinationIndex];
+            int distance = distances[currentLocationIndex][destinationIndex];
 
             // Update current location index
             currentLocationIndex = destinationIndex;
 
+            // Set the current location in the player object
+            player.setCurrentLocation(locationNames[currentLocationIndex]);
+
             // Decrease stamina
-            player.updateStamina((int) distance);
+            player.updateStamina(distance);
 
             System.out.println("Remaining Stamina: " + player.getStamina());
 
@@ -92,47 +91,44 @@ public class PlayerMovement {
                 break;
             }
 
-            ZombieEncounter.encounterZombie();
+            ZombieEncounter.encounterZombie(player);
 
             // Check if the location has an unsolved math problem
             if (!LocationMathProblems.hasSolvedProblem(locationNames[currentLocationIndex])) {
                 LocationMathProblems.generateMathProblem(locationNames[currentLocationIndex]);
+
+                // Generate an item for the location
+                String obtainedItem = LocationItemsGenerator.generateItem(locationNames[currentLocationIndex]);
+
+                // Display the obtained item
+                if (obtainedItem != null) {
+                    System.out.println("You found an item: " + obtainedItem);
+                    player.getInventory().addItem(obtainedItem);  // Add the item to the player's inventory
+                } else {
+                    System.out.println("No item found in this location.");
+                }
             }
 
             System.out.println(); // Blank line
         }
     }
 
-    private static double[][] generateRandomDistances(int numLocations) {
+    private static int[][] generateRandomDistances(int numLocations) {
         Random random = new Random();
-        double[][] distances = new double[numLocations][numLocations];
+        int[][] distances = new int[numLocations][numLocations];
 
         for (int i = 0; i < numLocations; i++) {
             for (int j = i + 1; j < numLocations; j++) {
-                // Generate random distance between 1 and 10 (in miles) and convert to km
-                double distanceInMiles = random.nextInt(10) + 1;
-                double distanceInKm = distanceInMiles * MILES_TO_KM;
-
-                // Cast distance to integer to remove decimals
-                int distanceInKmInt = (int) distanceInKm;
+                // Generate random distance between 1 and 10
+                int distance = random.nextInt(10) + 1;
 
                 // Set the distance for both directions (i to j and j to i)
-                distances[i][j] = distanceInKmInt;
-                distances[j][i] = distanceInKmInt;
+                distances[i][j] = distance;
+                distances[j][i] = distance;
             }
         }
 
         return distances;
-    }
-
-    private static int decreaseStamina(int distance, int stamina) {
-        // Decrease stamina by the distance
-        stamina -= distance;
-        // Ensure stamina doesn't go below 0
-        if (stamina < 0) {
-            stamina = 0;
-        }
-        return stamina;
     }
 
     private static int getLocationIndex(String[] locationNames, String location) {
