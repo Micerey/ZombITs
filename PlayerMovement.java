@@ -4,13 +4,14 @@ import java.util.Scanner;
 public class PlayerMovement {
     public static void moveWithinMap(Player player) {
         int numLocations = 6;
-        String[] locationNames = { "ICS New Bldg.", "Pavilion", "Covered Court", "Student Park", "Cafeteria", "Clinic" };
+        String[] locationNames = { "ICS New Bldg.", "Pavilion", "Covered Court", "Student Park", "Cafeteria",
+                "Clinic" };
         String[][] routes = { { "ICS New Bldg. to Student Park" }, { "Student Park to ICS New Bldg." },
                 { "Student Park to Pavilion" }, { "Pavilion to Student Park" }, { "Student Park to Cafeteria" },
                 { "Cafeteria to Student Park" }, { "Student Park to Clinic" }, { "Clinic to Student Park" },
                 { "Clinic to Covered Court" }, { "Covered Court to Clinic" } };
         int[][] distances = generateRandomDistances(numLocations);
-        
+
         Scanner scanner = new Scanner(System.in);
 
         // Check if the player already has a current location
@@ -32,6 +33,7 @@ public class PlayerMovement {
         while (true) {
             // Display current location
             System.out.println("Current Location: " + locationNames[currentLocationIndex]);
+            System.out.println();
 
             // Display possible routes from the current location
             System.out.println("Possible Routes from " + locationNames[currentLocationIndex] + ":");
@@ -40,7 +42,9 @@ public class PlayerMovement {
                     String[] parts = route[0].split(" to ");
                     int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames,
                             parts[1])];
-                    System.out.println(route[0] + ", Distance: " + distance);
+                    System.out.println(locationNames[getLocationIndex(locationNames, parts[0])] + " ---> " +
+                            locationNames[getLocationIndex(locationNames, parts[1])] + ", Distance: " + distance);
+                    System.out.println();
                 }
             }
 
@@ -83,7 +87,11 @@ public class PlayerMovement {
             // Decrease stamina
             player.updateStamina(distance);
 
+            System.out.println();
+            System.out.println();
+            System.out.println();
             System.out.println("Remaining Stamina: " + player.getStamina());
+            System.out.println();
 
             // Check if stamina is depleted
             if (player.getStamina() == 0) {
@@ -103,13 +111,16 @@ public class PlayerMovement {
                 // Display the obtained item
                 if (obtainedItem != null) {
                     System.out.println("You found an item: " + obtainedItem);
-                    player.getInventory().addItem(obtainedItem);  // Add the item to the player's inventory
+                    player.getInventory().addItem(obtainedItem); // Add the item to the player's inventory
                 } else {
                     System.out.println("No item found in this location.");
                 }
             }
 
-            System.out.println(); // Blank line
+            System.out.println(); // Blank line1
+
+            System.out.println();
+
         }
     }
 
