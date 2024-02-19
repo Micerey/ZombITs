@@ -1,8 +1,12 @@
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 
 public class PlayerMovement {
-    public static void moveWithinMap() {
+    private static final double MILES_TO_KM = 1.60934; // Conversion factor from miles to kilometers
+
+    public static void moveWithinMap(Player player) {
         // Define the number of locations
         int numLocations = 6;
 
@@ -16,10 +20,7 @@ public class PlayerMovement {
                 { "Clinic to Covered Court" }, { "Covered Court to Clinic" } };
 
         // Generate random distances for each consecutive pair of locations
-        int[][] distances = generateRandomDistances(numLocations);
-
-        // Initialize stamina
-        int stamina = 100;
+        double[][] distances = generateRandomDistances(numLocations);
 
         // Randomly select current location index
         Random random = new Random();
@@ -30,14 +31,20 @@ public class PlayerMovement {
             // Display current location
             System.out.println("Current Location: " + locationNames[currentLocationIndex]);
 
+            // Sort routes based on distance
+            Arrays.sort(routes, Comparator.comparing(route -> {
+                String[] parts = route[0].split(" to ");
+                return distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])];
+            }));
+
             // Display possible routes from the current location
             System.out.println("Possible Routes from " + locationNames[currentLocationIndex] + ":");
             for (String[] route : routes) {
                 if (route[0].startsWith(locationNames[currentLocationIndex])) {
                     String[] parts = route[0].split(" to ");
-                    int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames,
+                    double distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames,
                             parts[1])];
-                    System.out.println(route[0] + ", Distance: " + distance);
+                    System.out.printf("%s, Distance: %.0f km\n", route[0], distance);
                 }
             }
 
@@ -69,17 +76,18 @@ public class PlayerMovement {
             int destinationIndex = getLocationIndex(locationNames, destination);
 
             // Get the distance between current location and destination
-            int distance = distances[currentLocationIndex][destinationIndex];
+            double distance = distances[currentLocationIndex][destinationIndex];
 
             // Update current location index
             currentLocationIndex = destinationIndex;
 
             // Decrease stamina
-            stamina = decreaseStamina(distance, stamina);
-            System.out.println("Remaining Stamina: " + stamina);
+            player.updateStamina((int) distance);
+
+            System.out.println("Remaining Stamina: " + player.getStamina());
 
             // Check if stamina is depleted
-            if (stamina == 0) {
+            if (player.getStamina() == 0) {
                 System.out.println("Your stamina is depleted. You cannot travel further.");
                 break;
             }
@@ -95,18 +103,22 @@ public class PlayerMovement {
         }
     }
 
-    private static int[][] generateRandomDistances(int numLocations) {
+    private static double[][] generateRandomDistances(int numLocations) {
         Random random = new Random();
-        int[][] distances = new int[numLocations][numLocations];
+        double[][] distances = new double[numLocations][numLocations];
 
         for (int i = 0; i < numLocations; i++) {
             for (int j = i + 1; j < numLocations; j++) {
-                // Generate random distance between 1 and 10
-                int distance = random.nextInt(10) + 1;
+                // Generate random distance between 1 and 10 (in miles) and convert to km
+                double distanceInMiles = random.nextInt(10) + 1;
+                double distanceInKm = distanceInMiles * MILES_TO_KM;
+
+                // Cast distance to integer to remove decimals
+                int distanceInKmInt = (int) distanceInKm;
 
                 // Set the distance for both directions (i to j and j to i)
-                distances[i][j] = distance;
-                distances[j][i] = distance;
+                distances[i][j] = distanceInKmInt;
+                distances[j][i] = distanceInKmInt;
             }
         }
 
