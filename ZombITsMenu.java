@@ -7,6 +7,10 @@ public class ZombITsMenu {
 
         System.out.println("Welcome to the ZombITs Game! Are you ready to test your wit and luck to survive?");
 
+        // Initialize the player's inventory
+        Inventory playerInventory = new Inventory();
+        Player player = new Player(3, 0, 100, playerInventory); // Create a default player
+
         while (!exit) {
             System.out.println();
             System.out.println(
@@ -22,7 +26,7 @@ public class ZombITsMenu {
                     gameMap.displayMap();
 
                     // Call the moveWithinMap method from the PlayerMovement class
-                    PlayerMovement.moveWithinMap();
+                    PlayerMovement.moveWithinMap(player);
 
                     System.out.println("Are you sure you want to exit?(Y/N): ");
                     sc.nextLine(); // Consume the newline character left by sc.nextInt()
@@ -46,18 +50,17 @@ public class ZombITsMenu {
                 case 2: {
                     System.out.println();
                     System.out.println("Collected items:");
-                    System.out.println("Potion: ");
-                    System.out.println("Energy drink: ");
-                    System.out.println("Calculator: ");
-                    System.out.println("Zombie Immunity: ");
+                    for (String itemName : playerInventory.getItems().keySet()) {
+                        int itemCount = playerInventory.getItems().get(itemName);
+                        System.out.println(itemName + ": " + itemCount);
+                    }
                     System.out.println();
                     break;
                 }
 
                 case 3: {
-                    System.out.println("Lives: ");
-                    System.out.println("Progress: ");
-                    System.out.println("Stamina: ");
+                    // Call the displayPlayerInfo method from the PlayerInformation class
+                    PlayerInformation.displayPlayerInfo(player);
                     break;
                 }
 
