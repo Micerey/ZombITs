@@ -1,8 +1,8 @@
-import java.util.Random;
 import java.util.Scanner;
+import java.util.Random;
 
 public class PlayerMovement {
-    public static void moveWithinMap(Player player) {
+    public static String moveWithinMap(ZombITsMain game, Player player, String startingLocation) {
         int numLocations = 6;
         String[] locationNames = { "ICS New Bldg.", "Pavilion", "Covered Court", "Student Park", "Cafeteria",
                 "Clinic" };
@@ -15,20 +15,8 @@ public class PlayerMovement {
         Scanner scanner = new Scanner(System.in);
 
         // Check if the player already has a current location
-        String currentLocation = player.getCurrentLocation();
-        int currentLocationIndex;
-
-        if (currentLocation != null) {
-            // Player has a current location, find its index
-            currentLocationIndex = getLocationIndex(locationNames, currentLocation);
-        } else {
-            // Player doesn't have a current location, randomly select one
-            Random random = new Random();
-            currentLocationIndex = random.nextInt(numLocations);
-
-            // Set the current location in the player object
-            player.setCurrentLocation(locationNames[currentLocationIndex]);
-        }
+        String currentLocation = startingLocation;
+        int currentLocationIndex = getLocationIndex(locationNames, startingLocation);
 
         while (true) {
             // Display current location
@@ -81,6 +69,9 @@ public class PlayerMovement {
             // Update the current location index
             currentLocationIndex = destinationIndex;
 
+            // Call moveToLocation to update the current location in ZombITsMain
+            game.moveToLocation(locationNames[currentLocationIndex]);
+
             // Set the current location in the player object
             player.setCurrentLocation(locationNames[currentLocationIndex]);
 
@@ -127,6 +118,7 @@ public class PlayerMovement {
                 break;
             }
         }
+        return locationNames[currentLocationIndex];
     }
 
     private static int[][] generateRandomDistances(int numLocations) {
