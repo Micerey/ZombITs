@@ -5,7 +5,8 @@ public class zombITsMain {
                 Scanner s = new Scanner(System.in);
 
                 // Introduction / story
-                introStory.introduction();
+                character.displayChar();
+                // introStory.introduction();
 
                 // Prompt user to start the game
                 System.out.println();
@@ -28,6 +29,7 @@ public class zombITsMain {
 
                         // Call displayMenu() method
                         ZombITsMenu.displayMenu();
+
                 }
 
                 s.close();
