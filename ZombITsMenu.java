@@ -54,10 +54,22 @@ public class ZombITsMenu {
                         int itemCount = playerInventory.getItems().get(itemName);
                         System.out.println(itemName + ": " + itemCount);
                     }
+                
+                    // Allow the player to use an item
+                    System.out.print("Do you want to use an item? (Y/N): ");
+                    String useItemChoice = sc.next();
+                
+                    if (useItemChoice.equalsIgnoreCase("Y")) {
+                        System.out.print("Enter the item name to use: ");
+                        String itemName = sc.next();
+                        // Use the item and update the player's state
+                        playerInventory.useItem(itemName, player);
+                    }
+                
                     System.out.println();
                     break;
-                }
-
+                    }
+                    
                 case 3: {
                     // Call the displayPlayerInfo method from the PlayerInformation class
                     PlayerInformation.displayPlayerInfo(player);
