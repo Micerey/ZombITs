@@ -48,7 +48,9 @@ public class ZombITsMain {
         // Don't close the scanner here
     }
 
-    private static void displayCurrentMap() {
+    static void displayCurrentMap() {
+        String currentLocation = ZombITsMain.getCurrentLocation();
+    
         switch (currentLocation) {
             case "Pavilion":
                 gameMap.displayPav();
@@ -72,16 +74,22 @@ public class ZombITsMain {
                 System.out.println("Invalid location.");
         }
     }
+    
 
     // Add a method to update the current location
     public static void moveToLocation(String newLocation) {
         currentLocation = newLocation;
         System.out.println("Moved to " + newLocation);
+        
         displayCurrentMap(); // Display the new map
     }
 
     // Method to get the starting location
     public static String getStartingLocation() {
         return startingLocation;
+    }
+
+    public static String getCurrentLocation() {
+        return currentLocation;
     }
 }
