@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class ZombITsMenu {
-    public static void displayMenu() {
+    public static void displayMenu(ZombITsMain game, Player player) {
         Scanner sc = new Scanner(System.in);
         boolean exit = false;
 
@@ -9,12 +9,10 @@ public class ZombITsMenu {
 
         // Initialize the player's inventory
         Inventory playerInventory = new Inventory();
-        Player player = new Player(3, 0, 100, playerInventory); // Create a default player
 
         while (!exit) {
             System.out.println();
-            System.out.println(
-                    "Game Menu\n 1: Check Map \n 2: Check Inventory \n 3: Player Information \n 4: Quit");
+            System.out.println("Game Menu\n 1: Check Map \n 2: Check Inventory \n 3: Player Information \n 4: Quit");
             System.out.print("Enter your choice: ");
             int menuChoice = sc.nextInt();
 
@@ -22,11 +20,8 @@ public class ZombITsMenu {
 
             switch (menuChoice) {
                 case 1: {
-                    // Call the displayMap method from the gameMap class
-                    gameMap.displayMap();
-
                     // Call the moveWithinMap method from the PlayerMovement class
-                    PlayerMovement.moveWithinMap(player);
+                    String newLocation = PlayerMovement.moveWithinMap(game, player, game.getStartingLocation());
 
                     System.out.println("Are you sure you want to exit?(Y/N): ");
                     sc.nextLine(); // Consume the newline character left by sc.nextInt()
@@ -68,7 +63,7 @@ public class ZombITsMenu {
                 
                     System.out.println();
                     break;
-                    }
+                }
                     
                 case 3: {
                     // Call the displayPlayerInfo method from the PlayerInformation class
@@ -106,6 +101,6 @@ public class ZombITsMenu {
 
     public static void main(String[] args) {
         // Uncomment the line below if you want to test the ZombITsMenu independently
-        displayMenu();
+        // displayMenu();
     }
 }
