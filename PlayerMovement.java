@@ -75,10 +75,10 @@ public class PlayerMovement {
             // Get the index of the destination location
             int destinationIndex = getLocationIndex(locationNames, destination);
 
-            // Get the distance between current location and destination
+            // Get the distance between the current location and destination
             int distance = distances[currentLocationIndex][destinationIndex];
 
-            // Update current location index
+            // Update the current location index
             currentLocationIndex = destinationIndex;
 
             // Set the current location in the player object
@@ -103,7 +103,7 @@ public class PlayerMovement {
 
             // Check if the location has an unsolved math problem
             if (!LocationMathProblems.hasSolvedProblem(locationNames[currentLocationIndex])) {
-                LocationMathProblems.generateMathProblem(locationNames[currentLocationIndex]);
+                LocationMathProblems.generateMathProblem(locationNames[currentLocationIndex], player);
 
                 // Generate an item for the location
                 String obtainedItem = LocationItemsGenerator.generateItem(locationNames[currentLocationIndex]);
@@ -121,6 +121,11 @@ public class PlayerMovement {
 
             System.out.println();
 
+            // Check if the player has lives remaining
+            if (player.getLives() == 0) {
+                System.out.println("Game over! You have run out of lives.");
+                break;
+            }
         }
     }
 
@@ -130,8 +135,8 @@ public class PlayerMovement {
 
         for (int i = 0; i < numLocations; i++) {
             for (int j = i + 1; j < numLocations; j++) {
-                // Generate random distance between 1 and 10
-                int distance = random.nextInt(10) + 1;
+                // Generate random distance between 10 and 20
+                int distance = random.nextInt(11) + 10;
 
                 // Set the distance for both directions (i to j and j to i)
                 distances[i][j] = distance;
