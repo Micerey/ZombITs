@@ -1,6 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
-
 public class Player {
     private int lives;
     private int progress;
@@ -16,7 +13,7 @@ public class Player {
     }
 
     // Add a constructor with default values
-    public Player(String name) {
+    public Player() {
         this(3, 0, 100, new Inventory());
     }
 
@@ -59,6 +56,22 @@ public class Player {
             stamina = 0;
         }
     }
+
+    public void restoreLives(int points) {
+        lives += points;
+    }
+    
+    public void restoreEnergy(int points) {
+        stamina += points;
+        if (stamina > 100) {
+            stamina = 100;
+        }
+    }
+    
+    public boolean hasItem(String itemName) {
+        return inventory.getItems().containsKey(itemName) && inventory.getItems().get(itemName) > 0;
+    }
+    
 
     @Override
     public String toString() {
