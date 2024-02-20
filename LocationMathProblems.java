@@ -14,7 +14,7 @@ public class LocationMathProblems {
         solvedProblems.put(location, true);
     }
 
-    public static void generateMathProblem(String location) {
+    public static void generateMathProblem(String location, Player player) {
         Random random = new Random();
         int num1 = random.nextInt(10) + 1;
         int num2 = random.nextInt(10) + 1;
@@ -25,22 +25,32 @@ public class LocationMathProblems {
         CountdownTimer.startTimer(15, new TimerCallback() {
             @Override
             public void onTimerFinish() {
-                System.out.println("Time's up! You lost a life.");
-                // Implement logic for losing a life here
+                System.out.println("Time's up!");
+                if (!player.hasItem("Calculator")) {
+                    System.out.println("You lost a life.");
+                    player.loseLife();
+                } else {
+                    System.out.println("Good thing you have a Calculator! No life lost.");
+                }
             }
         });
-        
+
         Scanner scanner = new Scanner(System.in);
         int userAnswer = scanner.nextInt();
         CountdownTimer.cancelTimer();
-        
+
         int correctAnswer = num1 + num2;
 
         if (userAnswer == correctAnswer) {
             System.out.println("Correct! You defeated the zombie and can proceed.");
             markProblemAsSolved(location);
         } else {
-            System.out.println("Incorrect! You lost a life.");
+            if (!player.hasItem("Calculator")) {
+                System.out.println("Incorrect, but you have a Calculator! No life lost.");
+            } else {
+                System.out.println("Incorrect, you have lost a life...");
+                player.loseLife();
+            }
         }
     }
 }
