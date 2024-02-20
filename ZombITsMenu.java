@@ -20,6 +20,12 @@ public class ZombITsMenu {
 
             switch (menuChoice) {
                 case 1: {
+                    // Display the map
+                    System.out.println("        Current Location:");
+                    ZombITsMain.displayCurrentMap();
+                    System.out.println();
+                    System.out.println("        Map");
+                    gameMap.displayMap();
                     // Call the moveWithinMap method from the PlayerMovement class
                     String newLocation = PlayerMovement.moveWithinMap(game, player, game.getStartingLocation());
 
@@ -38,10 +44,11 @@ public class ZombITsMenu {
 
                     System.out.println("Please press enter to continue...");
                     sc.nextLine();
+                    
 
                     break;
                 }
-
+    
                 case 2: {
                     System.out.println();
                     System.out.println("Collected items:");
@@ -70,12 +77,12 @@ public class ZombITsMenu {
                     PlayerInformation.displayPlayerInfo(player);
                     break;
                 }
-
+    
                 case 4: {
                     System.out.println("Are you sure you want to quit the game? Your progress won't be saved.");
                     System.out.print("Quit the game. 1: Yes or 2: No? ");
                     String exitChoice = sc.next();
-
+    
                     if (exitChoice.equals("1")) {
                         System.out.println("Exiting the game! Goodbye.");
                         exit = true;
@@ -86,10 +93,10 @@ public class ZombITsMenu {
                         System.out.println("Invalid choice! You are continuing to the game.");
                         System.out.println();
                     }
-
+    
                     break;
                 }
-
+    
                 default: {
                     System.out.println("Game over!");
                     break;
@@ -98,7 +105,6 @@ public class ZombITsMenu {
         }
         sc.close();
     }
-
     public static void main(String[] args) {
         // Uncomment the line below if you want to test the ZombITsMenu independently
         // displayMenu();
