@@ -10,7 +10,7 @@ public class ZombieEncounter {
         Scanner sc = new Scanner(System.in);
         Random random = new Random();
 
-        if (random.nextDouble() <= 0.3) {
+        if (random.nextDouble() <= 0.7) {
             System.out.println("Oh no! You've encountered a zombie!");
 
             int num1 = random.nextInt(10) + 1;
@@ -23,9 +23,12 @@ public class ZombieEncounter {
             CountdownTimer.startTimer(15, new TimerCallback() {
                 @Override
                 public void onTimerFinish() {
-                    System.out.println("The zombie got you! You lost a life.");
-                    player.loseLife();
-                    PlayerInformation.displayPlayerInfo(player);
+                    if (player.hasItem("Baseball Bat")) {
+                        System.out.println("You successfully defended with the baseball bat. No life lost.");
+                    } else {
+                        System.out.println("The zombie got you! You lost a life.");
+                        player.loseLife();
+                    }
                 }
             });
 
@@ -35,10 +38,11 @@ public class ZombieEncounter {
 
             if (userAnswer == correctAnswer) {
                 System.out.println("Congratulations! You defeated the zombie and can proceed.");
+            } else if (!player.hasItem("Baseball Bat")) {
+                System.out.println("You successfully defended with the baseball bat. No life lost.");
             } else {
-                System.out.println("Oops! Incorrect answer. You lost a life.");
+                System.out.println("The zombie got you! You lost a life.");
                 player.loseLife();
-                PlayerInformation.displayPlayerInfo(player);
             }
         }
     }
