@@ -1,42 +1,41 @@
-
-// character.java
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class character {
-        public static void displayChar() {
-                Timer timer = new Timer();
+    public static void displayChar(Runnable onAnimationComplete) {
+        Timer timer = new Timer();
 
-                timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                                ani1();
-                        }
-                }, 1000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ani1();
+            }
+        }, 1000);
 
-                timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                                ani2();
-                        }
-                }, 2000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ani2();
+            }
+        }, 2000);
 
-                timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                                ani3();
-                        }
-                }, 4000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                ani3();
+                // Invoke the callback once the animation is complete
+                onAnimationComplete.run();
+            }
+        }, 4000);
 
-                timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                                introStory.introduction();
-                                timer.cancel(); // Stop the timer after displaying ani3()
-                        }
-                }, 6000);
-
-        }
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                introStory.introduction();
+                timer.cancel(); // Stop the timer after displaying ani3()
+            }
+        }, 6000);
+    }
 
         // Print the ASCII art representation of the character
         public static void ani1() {
@@ -209,5 +208,10 @@ public class character {
                 System.out.println();
                 System.out.println();
                 System.out.println();
+        }
+
+        public static void displayChar(Object object) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'displayChar'");
         }
 }
