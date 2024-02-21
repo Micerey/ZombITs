@@ -31,10 +31,17 @@ public class Inventory {
             case "Baseball Bat":
                 preventLifeLoss(player);
                 break;
-            // Add more cases for other items if needed
         }
+
         // Decrease the count of the used item
-        items.put(itemName, items.get(itemName) - 1);
+        if (items.containsKey(itemName)) {
+            int itemCount = items.get(itemName);
+            if (itemCount > 1) {
+                items.put(itemName, itemCount - 1);
+            } else {
+                items.remove(itemName);
+            }
+        }
     }
 
     private void restoreLives(Player player) {
@@ -44,8 +51,8 @@ public class Inventory {
     }
 
     private void restoreEnergy(Player player) {
-        // Restores energy from 10 to 20 points
-        int restoredEnergy = new Random().nextInt(11) + 10;
+        // Restores energy from 20 to 30 points
+        int restoredEnergy = new Random().nextInt(21) + 10;
         player.restoreEnergy(restoredEnergy);
         System.out.println("Used Sting: Energy restored by " + restoredEnergy + " points.");
     }
@@ -54,4 +61,16 @@ public class Inventory {
         // No effect for failed math problems or zombie encounters
         System.out.println("Used " + player.getCurrentItem() + ": Prevented life loss.");
     }
+
+    public void removeItem(String itemName) {
+        if (items.containsKey(itemName)) {
+            int itemCount = items.get(itemName);
+            if (itemCount > 1) {
+                items.put(itemName, itemCount - 1);
+            } else {
+                items.remove(itemName);
+            }
+        }
+    }
+    
 }
