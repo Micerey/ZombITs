@@ -24,9 +24,31 @@ public class PlayerMovement {
             System.out.println();
 
             // Display possible routes from the current location
-            System.out.println("Possible Routes from " + locationNames[currentLocationIndex] + ":");
+            int shortestDistance = Integer.MAX_VALUE;
+            String shortestRoute = null;
+            System.out.println("Shortest Route (Recommended):");
             for (String[] route : routes) {
                 if (route[0].startsWith(locationNames[currentLocationIndex])) {
+                    String[] parts = route[0].split(" to ");
+                    int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames,
+                            parts[1])];
+                    if (distance < shortestDistance) {
+                        shortestDistance = distance;
+                        shortestRoute = route[0];
+                    }
+                }
+            }
+            if (shortestRoute != null) {
+                String[] parts = shortestRoute.split(" to ");
+                System.out.println(locationNames[getLocationIndex(locationNames, parts[0])] + " ---> " +
+                        locationNames[getLocationIndex(locationNames, parts[1])] + ", Distance: " + shortestDistance);
+                System.out.println();
+            }
+
+            // Display other possible routes
+            System.out.println("Other Possible Routes:");
+            for (String[] route : routes) {
+                if (route[0].startsWith(locationNames[currentLocationIndex]) && !route[0].equals(shortestRoute)) {
                     String[] parts = route[0].split(" to ");
                     int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames,
                             parts[1])];
