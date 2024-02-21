@@ -17,6 +17,7 @@ public class PlayerMovement {
         // Check if the player already has a current location
         String currentLocation = startingLocation;
         int currentLocationIndex = getLocationIndex(locationNames, startingLocation);
+        int totalDistanceWalked = 0;
 
         while (true) {
             // Display current location
@@ -58,6 +59,9 @@ public class PlayerMovement {
                 }
             }
 
+            // Calculate and display total distance walked
+            System.out.println("Total Distance Walked: " + totalDistanceWalked);
+
             // Prompt user to choose a location
             System.out.println("Enter the destination location (type 'exit' to quit): ");
             String destination = scanner.nextLine().trim();
@@ -87,6 +91,9 @@ public class PlayerMovement {
 
             // Get the distance between the current location and destination
             int distance = distances[currentLocationIndex][destinationIndex];
+
+            // Update the total distance walked
+            totalDistanceWalked += distance;
 
             // Update the current location index
             currentLocationIndex = destinationIndex;
