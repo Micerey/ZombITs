@@ -65,7 +65,7 @@ public class ZombITsMain {
                 gameMap.displayCafe();
                 break;
             case "Covered Court":
-                gameMap.displayCC();
+                gameMap.displayCC();         
                 break;
             case "Clinic":
                 gameMap.displayClinic();
