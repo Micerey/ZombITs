@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class PlayerMovement {
+    private static Scanner scanner = new Scanner(System.in);
+
     public static String moveWithinMap(ZombITsMain game, Player player, String startingLocation) {
         int numLocations = 6;
         String[] locationNames = { "ICS New Bldg.", "Pavilion", "Covered Court", "Student Park", "Cafeteria", "Clinic" };
@@ -13,8 +15,6 @@ public class PlayerMovement {
                 { "Cafeteria to Student Park" }, { "Student Park to Clinic" }, { "Clinic to Student Park" },
                 { "Clinic to Covered Court" }, { "Covered Court to Clinic" } };
         int[][] distances = generateRandomDistances(numLocations);
-
-        Scanner scanner = new Scanner(System.in);
 
         // Check if the player already has a current location
         String currentLocation = startingLocation;
@@ -43,9 +43,17 @@ public class PlayerMovement {
                 // Ask the user if they want to start the final wave
                 System.out.println(
                         "You have 4 wooden planks. Do you want to go back to ICS New Bldg. to start the final wave against the horde of zombies? (1. Yes, 2. No)");
-                int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
 
+                int choice;
+                try {
+                    choice = scanner.nextInt();
+                } catch (java.util.InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter 1 for Yes or 2 for No.");
+                    scanner.nextLine(); // Consume invalid input
+                    continue; // Restart the loop or handle the situation as needed
+                }
+
+                // Rest of your code based on the user's choice
                 if (choice == 1) {
                     // Move back to ICS New Bldg. to start the final wave
                     game.moveToLocation("ICS New Bldg.");
@@ -56,6 +64,12 @@ public class PlayerMovement {
 
                     // Break out of the loop to end the game or continue based on your logic
                     break;
+                } else if (choice == 2) {
+                    // Handle the case when the player chooses not to start the final wave
+                    // ...
+                    break; // Break out of the inner loop
+                } else {
+                    System.out.println("Invalid choice. Please enter 1 for Yes or 2 for No.");
                 }
             }
 
