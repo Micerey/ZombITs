@@ -5,10 +5,10 @@ public class ZombieEncounter {
     private static final int MAX_LIVES = 3;
 
     private static int lives = MAX_LIVES;
+    private static Random random = new Random();
 
     public static void encounterZombie(Player player) {
         Scanner sc = new Scanner(System.in);
-        Random random = new Random();
 
         if (random.nextDouble() <= 0.7) {
             System.out.println("Oh no! You've encountered a zombie!");
@@ -55,7 +55,6 @@ public class ZombieEncounter {
     }
 
     private static void dropItemUponDefeat(Player player) {
-        Random random = new Random();
         double dropChance = random.nextDouble();
 
         if (dropChance <= 0.3) { // 30% chance for the zombie to drop an item
@@ -68,52 +67,61 @@ public class ZombieEncounter {
     }
 
     private static void displayProblem(int num1, int num2, int operation) {
-        Random random = new Random(); // This random is used for the adjustment, not for selecting the operation
-
-        int adjustedNum1 = Math.max(num1, num2); // Use a separate variable for adjusted num1
-        num2 = Math.min(num1, num2); // Ensure num1 is always greater than or equal to num2 in subtraction
-
+        String operator;
         switch (operation) {
             case 0:
-                System.out.println("Solve the math problem to proceed:");
-                System.out.print(num1 + " + " + num2 + " = ");
+                operator = "+";
                 break;
             case 1:
-                System.out.println("Solve the math problem to proceed:");
-                System.out.print(adjustedNum1 + " - " + num2 + " = ");
+                operator = "-";
+                if (num1 < num2) {
+                    // Swap the numbers if num1 is less than num2
+                    int temp = num1;
+                    num1 = num2;
+                    num2 = temp;
+                }
                 break;
             case 2:
-                System.out.println("Solve the math problem to proceed:");
-                System.out.print(num1 + " * " + num2 + " = ");
+                operator = "*";
                 break;
             case 3:
-                // Ensure division results in a whole number with an even dividend
-                int factor = random.nextInt(4) * 2; // Generate a random even number as a factor
-                adjustedNum1 = num2 * factor;
-                System.out.println("Solve the math problem to proceed:");
-                System.out.print(adjustedNum1 + " / " + num2 + " = ");
+                operator = "/";
+                // Ensure num1 is greater than num2, num1 is even, and result is a whole number
+                num1 = Math.max(num1, num2 + 1);
+                num1 = makeEven(num1);
+                num2 = findDivisorForEven(num1);
+                break;
+            default:
+                operator = "+"; // Default to addition
                 break;
         }
+
+        System.out.println("Solve the math problem to proceed:");
+        System.out.print(num1 + " " + operator + " " + num2 + " = ");
     }
 
     private static int calculateCorrectAnswer(int num1, int num2, int operation) {
-        int adjustedNum1 = Math.max(num1, num2); // Use a separate variable for adjusted num1
-        num2 = Math.min(num1, num2); // Ensure num1 is always greater than or equal to num2 in subtraction
-
         switch (operation) {
             case 0:
                 return num1 + num2;
             case 1:
-                return adjustedNum1 - num2;
+                return num1 - num2;
             case 2:
                 return num1 * num2;
             case 3:
-                // Ensure division results in a whole number with an even dividend
-                int factor = new Random().nextInt(4) * 2; // Generate a random even number as a factor
-                adjustedNum1 = num2 * factor;
-                return adjustedNum1 / num2;
+                return num1 / num2;
             default:
                 return num1 + num2; // Default to addition
         }
+    }
+
+    private static int makeEven(int num) {
+        // Make sure num is even
+        return (num % 2 == 0) ? num : num + 1;
+    }
+
+    private static int findDivisorForEven(int num) {
+        // Find an appropriate divisor for even numbers
+        return (num % 4 == 0) ? 4 : 2;
     }
 }
