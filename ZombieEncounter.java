@@ -87,10 +87,9 @@ public class ZombieEncounter {
                 System.out.print(num1 + " * " + num2 + " = ");
                 break;
             case 3:
-                // Ensure division results in a whole number
-                if (num2 == 0 || num1 % num2 != 0) {
-                    adjustedNum1 = num2 * (random.nextInt(9) + 1); // Adjust num1 to make the division result in a whole number
-                }
+                // Ensure division results in a whole number with an even dividend
+                int factor = random.nextInt(4) * 2; // Generate a random even number as a factor
+                adjustedNum1 = num2 * factor;
                 System.out.println("Solve the math problem to proceed:");
                 System.out.print(adjustedNum1 + " / " + num2 + " = ");
                 break;
@@ -109,10 +108,9 @@ public class ZombieEncounter {
             case 2:
                 return num1 * num2;
             case 3:
-                // Ensure division results in a whole number
-                if (num2 == 0 || num1 % num2 != 0) {
-                    adjustedNum1 = num2 * (new Random().nextInt(9) + 1); // Adjust num1 to make the division result in a whole number
-                }
+                // Ensure division results in a whole number with an even dividend
+                int factor = new Random().nextInt(4) * 2; // Generate a random even number as a factor
+                adjustedNum1 = num2 * factor;
                 return adjustedNum1 / num2;
             default:
                 return num1 + num2; // Default to addition
