@@ -1,7 +1,7 @@
+import java.util.Map;
 import java.util.Scanner;
 
 public class ZombITsMenu {
-
     public static void displayMenu(ZombITsMain game, Player player) {
         Scanner sc = new Scanner(System.in);
         boolean exit = false;
@@ -13,7 +13,7 @@ public class ZombITsMenu {
 
         while (!exit) {
             System.out.println();
-            System.out.println("Game Menu\n 1: Check Map \n 2: Check Inventory \n 3: Player Information \n 4: Start Final Wave \n 5: Quit");
+            System.out.println("Game Menu\n 1: Check Map \n 2: Check Inventory \n 3: Player Information \n 4: Quit");
             System.out.print("Enter your choice: ");
             int menuChoice = sc.nextInt();
 
@@ -26,7 +26,7 @@ public class ZombITsMenu {
                     ZombITsMain.displayCurrentMap();
                     System.out.println();
                     System.out.println("        Map");
-                    gameMap.displayMap(); // Assuming game has a displayMap method
+                    gameMap.displayMap();
                     // Call the moveWithinMap method from the PlayerMovement class
                     String newLocation = PlayerMovement.moveWithinMap(game, player, game.getStartingLocation());
 
@@ -45,17 +45,13 @@ public class ZombITsMenu {
 
                     System.out.println("Please press enter to continue...");
                     sc.nextLine();
-
                     break;
                 }
 
                 case 2: {
                     System.out.println();
                     System.out.println("Collected items:");
-                    for (String itemName : player.getInventory().getItems().keySet()) {
-                        int itemCount = player.getInventory().getItems().get(itemName);
-                        System.out.println(itemName + ": " + itemCount);
-                    }
+                    PlayerInformation.displayInventory(player.getInventory());
 
                     // Allow the player to use an item
                     System.out.print("Do you want to use an item? (Y/N): ");
@@ -63,14 +59,9 @@ public class ZombITsMenu {
 
                     if (useItemChoice.equalsIgnoreCase("Y")) {
                         System.out.print("Enter the item name to use: ");
-                        sc.nextLine(); // Consume the newline character left by sc.next()
-                        String itemName = sc.nextLine().trim();
+                        String itemName = sc.next();
                         // Use the item and update the player's state
-                        player.getInventory().useItem(itemName, player);
-                    } else if (useItemChoice.equalsIgnoreCase("N")) {
-                        System.out.println("Returning to the menu...");
-                    } else {
-                        System.out.println("Invalid choice. Returning to the menu...");
+                        playerInventory.useItem(itemName, player);
                     }
 
                     System.out.println();
@@ -84,14 +75,6 @@ public class ZombITsMenu {
                 }
 
                 case 4: {
-                    // Start the final wave
-                    System.out.println("Starting Final Wave...");
-                    FinalWave finalWave = new FinalWave();
-                    finalWave.startFinalWave(player);
-                    break;
-                }
-
-                case 5: {
                     System.out.println("Are you sure you want to quit the game? Your progress won't be saved.");
                     System.out.print("Quit the game. 1: Yes or 2: No? ");
                     String exitChoice = sc.next();
@@ -117,10 +100,5 @@ public class ZombITsMenu {
             }
         }
         sc.close();
-    }
-
-    public static void main(String[] args) {
-        // Uncomment the line below if you want to test the ZombITsMenu independently
-        // displayMenu();
     }
 }
