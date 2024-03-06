@@ -2,7 +2,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class character {
-    public static void displayChar(Runnable onAnimationComplete) {
+    public static void displayChar(Runnable onCharacterFinish) {
         Timer timer = new Timer();
 
         timer.schedule(new TimerTask() {
@@ -23,8 +23,6 @@ public class character {
             @Override
             public void run() {
                 ani3();
-                // Invoke the callback once the animation is complete
-                onAnimationComplete.run();
             }
         }, 4000);
 
@@ -33,9 +31,11 @@ public class character {
             public void run() {
                 introStory.introduction();
                 timer.cancel(); // Stop the timer after displaying ani3()
+                onCharacterFinish.run(); // Notify that character display is finished
             }
         }, 6000);
     }
+
 
         // Print the ASCII art representation of the character
         public static void ani1() {
@@ -208,10 +208,5 @@ public class character {
                 System.out.println();
                 System.out.println();
                 System.out.println();
-        }
-
-        public static void displayChar(Object object) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'displayChar'");
         }
 }
