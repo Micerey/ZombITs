@@ -24,7 +24,7 @@ public class ZombITsMain {
             s.nextLine(); // Consume newline character
 
             if (readyChoice == 1) {
-                // Displays the objective
+                // Displays the objective 
                 introStory.displayIO();
 
                 System.out.println();
@@ -50,7 +50,7 @@ public class ZombITsMain {
 
     static void displayCurrentMap() {
         String currentLocation = ZombITsMain.getCurrentLocation();
-    
+
         switch (currentLocation) {
             case "Pavilion":
                 gameMap.displayPav();
@@ -65,7 +65,7 @@ public class ZombITsMain {
                 gameMap.displayCafe();
                 break;
             case "Covered Court":
-                gameMap.displayCC();         
+                gameMap.displayCC();
                 break;
             case "Clinic":
                 gameMap.displayClinic();
@@ -74,13 +74,12 @@ public class ZombITsMain {
                 System.out.println("Invalid location.");
         }
     }
-    
 
     // Add a method to update the current location
     public static void moveToLocation(String newLocation) {
         currentLocation = newLocation;
         System.out.println("Moved to " + newLocation);
-        
+
         displayCurrentMap(); // Display the new map
     }
 
