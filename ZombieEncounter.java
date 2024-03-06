@@ -16,7 +16,7 @@ public class ZombieEncounter {
             int num1 = random.nextInt(10) + 1;
             int num2 = random.nextInt(10) + 1;
             int operation = random.nextInt(4); // 0: Addition, 1: Subtraction, 2: Multiplication, 3: Division
-            int correctAnswer = calculateCorrectAnswer(num1, num2, operation);
+            double correctAnswer = calculateCorrectAnswer(num1, num2, operation);
 
             displayProblem(num1, num2, operation);
 
@@ -29,12 +29,12 @@ public class ZombieEncounter {
                 }
             });
 
-            int userAnswer;
+            double userAnswer;
             try {
-                userAnswer = sc.nextInt();
+                userAnswer = sc.nextDouble();
             } catch (java.util.InputMismatchException e) {
-                // Handle non-integer input
-                System.out.println("Invalid input. Please enter a valid integer.");
+                // Handle non-numeric input
+                System.out.println("Invalid input. Please enter a valid number.");
                 sc.nextLine(); // Consume the invalid input
                 CountdownTimer.cancelTimer();
                 return;
@@ -42,7 +42,9 @@ public class ZombieEncounter {
                 CountdownTimer.cancelTimer();
             }
 
-            if (userAnswer == correctAnswer) {
+            // Compare user answer with correct answer within a tolerance
+            double tolerance = 0.001;
+            if (Math.abs(userAnswer - correctAnswer) < tolerance) {
                 System.out.println("Congratulations! You defeated the zombie and can proceed.");
                 dropItemUponDefeat(player);
             } else if (player.hasItem("Baseball Bat")) {
@@ -86,10 +88,11 @@ public class ZombieEncounter {
                 break;
             case 3:
                 operator = "/";
-                // Ensure num1 is greater than num2, num1 is even, and result is a whole number
-                num1 = Math.max(num1, num2 + 1);
-                num1 = makeEven(num1);
-                num2 = findDivisorForEven(num1);
+                // Ensure num1 is divisible by num2 and num2 is not 0
+                while (num1 % num2 != 0 || num2 == 0) {
+                    num1 = random.nextInt(10) + 1;
+                    num2 = random.nextInt(10) + 1;
+                }
                 break;
             default:
                 operator = "+"; // Default to addition
@@ -100,7 +103,7 @@ public class ZombieEncounter {
         System.out.print(num1 + " " + operator + " " + num2 + " = ");
     }
 
-    private static int calculateCorrectAnswer(int num1, int num2, int operation) {
+    private static double calculateCorrectAnswer(int num1, int num2, int operation) {
         switch (operation) {
             case 0:
                 return num1 + num2;
@@ -109,19 +112,9 @@ public class ZombieEncounter {
             case 2:
                 return num1 * num2;
             case 3:
-                return num1 / num2;
+                return (double) num1 / num2; // Use floating-point division
             default:
                 return num1 + num2; // Default to addition
         }
-    }
-
-    private static int makeEven(int num) {
-        // Make sure num is even
-        return (num % 2 == 0) ? num : num + 1;
-    }
-
-    private static int findDivisorForEven(int num) {
-        // Find an appropriate divisor for even numbers
-        return (num % 4 == 0) ? 4 : 2;
     }
 }
