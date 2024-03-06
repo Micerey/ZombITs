@@ -28,7 +28,7 @@ public class LocationItemsGenerator {
                     index = random % (ITEMS.length - 2);
                 }
                 break;
-                
+
             case "covered court":
             case "pavilion":
             case "ics new bldg.":
