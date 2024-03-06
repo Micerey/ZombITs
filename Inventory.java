@@ -44,6 +44,7 @@ public class Inventory {
         }
     }
 
+
     private void restoreLives(Player player) {
         // Restores lives by 1 point
         player.restoreLives(1);
@@ -72,5 +73,4 @@ public class Inventory {
             }
         }
     }
-    
 }
