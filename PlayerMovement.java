@@ -3,19 +3,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class PlayerMovement {
     private static Scanner scanner = new Scanner(System.in);
 
     public static String moveWithinMap(ZombITsMain game, Player player, String startingLocation) {
         int numLocations = 6;
-        String[] locationNames = { "ICS New Bldg.", "Pavilion", "Covered Court", "Student Park", "Cafeteria", "Clinic" };
+        String[] locationNames = { "ICS New Bldg.", "Pavilion", "Covered Court", "Student Park", "Cafeteria",
+                "Clinic" };
         String[][] routes = {
             { "ICS New Bldg. to Student Park" }, { "Student Park to ICS New Bldg." },
+            { "ICS New Bldg. to Pavilion" }, { "Pavilion to ICS New Bldg." },
+            { "ICS New Bldg. to Covered Court" }, { "Covered Court to ICS New Bldg." },
+            { "ICS New Bldg. to Cafeteria" }, { "Cafeteria to ICS New Bldg." },
+            { "ICS New Bldg. to Clinic" }, { "Clinic to ICS New Bldg." },
             { "Student Park to Pavilion" }, { "Pavilion to Student Park" },
+            { "Student Park to Covered Court" }, { "Covered Court to Student Park" },
             { "Student Park to Cafeteria" }, { "Cafeteria to Student Park" },
             { "Student Park to Clinic" }, { "Clinic to Student Park" },
-            { "Clinic to Covered Court" }, { "Covered Court to Clinic" }
+            { "Pavilion to Covered Court" }, { "Covered Court to Pavilion" },
+            { "Pavilion to Cafeteria" }, { "Cafeteria to Pavilion" },
+            { "Pavilion to Clinic" }, { "Clinic to Pavilion" },
+            { "Covered Court to Cafeteria" }, { "Cafeteria to Covered Court" },
+            { "Covered Court to Clinic" }, { "Clinic to Covered Court" },
+            { "Cafeteria to Clinic" }, { "Clinic to Cafeteria" }
         };
         int[][] distances = generateRandomDistances(numLocations);
 
@@ -23,27 +36,54 @@ public class PlayerMovement {
         String currentLocation = startingLocation;
         int currentLocationIndex = getLocationIndex(locationNames, startingLocation);
 
+        boolean firstMove = true; // Flag to track the first move from the starting location
+
         while (true) {
             // Display current location
             System.out.println("Current Location: " + locationNames[currentLocationIndex]);
+            if (!firstMove) {
+                System.out.println("Time taken to reach this destination: " + calculateTime(distances[currentLocationIndex][getLocationIndex(locationNames, startingLocation)]));
+            } else {
+                firstMove = false; // Set the flag to false after the first move
+            }
             System.out.println();
 
-            // Display possible routes from the current location
-            System.out.println("Possible Routes from " + locationNames[currentLocationIndex] + ":");
+            // Sort routes based on distances
+            Arrays.sort(routes, Comparator.comparing(route -> distances[getLocationIndex(locationNames, route[0].split(" to ")[0])][getLocationIndex(locationNames, route[0].split(" to ")[1])]));
+
+            // Display shortest route
+            System.out.println("Shortest Route/s:");
+            boolean shortestRouteDisplayed = false;
             for (String[] route : routes) {
                 if (route[0].startsWith(locationNames[currentLocationIndex])) {
                     String[] parts = route[0].split(" to ");
                     int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])];
-                    System.out.println(locationNames[getLocationIndex(locationNames, parts[0])] + " ---> " +
-                            locationNames[getLocationIndex(locationNames, parts[1])] + ", Distance: " + distance);
-                    System.out.println();
+                    if (!shortestRouteDisplayed && distance == distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])]) {
+                        System.out.println(locationNames[getLocationIndex(locationNames, parts[0])] + " ---> " +
+                                locationNames[getLocationIndex(locationNames, parts[1])] + ", Distance: " + distance + " meters");
+                        System.out.println();
+                        shortestRouteDisplayed = true;
+                    }
                 }
             }
+
+            // Display other possible routes
+System.out.println("Other Possible Routes from " + locationNames[currentLocationIndex] + ":");
+for (String[] route : routes) {
+    if (route[0].startsWith(locationNames[currentLocationIndex])) {
+        String[] parts = route[0].split(" to ");
+        int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])];
+        System.out.println(locationNames[getLocationIndex(locationNames, parts[0])] + " ---> " +
+                locationNames[getLocationIndex(locationNames, parts[1])] + ", Distance: " + distance + " meters");
+        System.out.println();
+    }
+}
 
             // Check if the player has 4 counts of wooden planks
             if (player.hasEnoughWoodenPlanks(4)) {
                 // Ask the user if they want to start the final wave
-                System.out.println("You have 4 wooden planks. Do you want to go back to ICS New Bldg. to start the final wave against the horde of zombies? (1. Yes, 2. No)");
+                System.out.println(
+                        "You have 4 wooden planks. Do you want to go back to ICS New Bldg. to start the final wave against the horde of zombies? (1. Yes, 2. No)");
 
                 int choice;
                 try {
@@ -93,7 +133,8 @@ public class PlayerMovement {
             // Consume any remaining input
             scanner.nextLine();
 
-            // Check if the destination location is reachable from the current location (case-insensitive)
+            // Check if the destination location is reachable from the current location
+            // (case-insensitive)
             boolean canProceed = false;
             for (String[] route : routes) {
                 if (route[0].startsWith(locationNames[currentLocationIndex])
@@ -122,28 +163,6 @@ public class PlayerMovement {
 
             // Set the current location in the player object
             player.setCurrentLocation(locationNames[currentLocationIndex]);
-
-            // Decrease stamina
-            player.updateStamina(distance);
-
-            System.out.println();
-            System.out.println();
-            System.out.println();
-            System.out.println("Remaining Stamina: " + player.getStamina());
-            System.out.println();
-
-            // Check if stamina is depleted
-            if (player.getStamina() == 0) {
-                System.out.println("Your stamina is depleted. You cannot travel further.");
-                System.out.println(
-                        "You have run out of stamina and are forced to stay here overnight. You have lost an item...");
-
-                removeRandomItem(player);
-                player.setStamina(100);
-                System.out.println("Stamina restored.");
-
-                break;
-            }
 
             ZombieEncounter.encounterZombie(player);
 
@@ -210,5 +229,11 @@ public class PlayerMovement {
         } else {
             System.out.println("You don't have any items to lose.");
         }
+    }
+
+    private static String calculateTime(int distance) {
+        int walkingSpeed = 5; // meters per minute (example)
+        int time = distance / walkingSpeed;
+        return String.format("%d minutes", time);
     }
 }
