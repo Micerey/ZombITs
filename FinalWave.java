@@ -174,5 +174,14 @@ public class FinalWave {
         }
     }
 
+    public class FinalWaveTest {
+        public static void main(String[] args) {
+            Player player = new Player(3, 0, 100, new Inventory());
+            FinalWave finalWave = new FinalWave();
+            finalWave.startFinalWave(player);
+        }
+    }
+    
+
     
 }
