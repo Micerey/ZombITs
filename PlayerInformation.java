@@ -10,7 +10,7 @@ public class PlayerInformation {
         displayInventory(player.getInventory());
     }
 
-    private static void displayInventory(Inventory inventory) {
+    static void displayInventory(Inventory inventory) {
         for (Map.Entry<String, Integer> entry : inventory.getItems().entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
