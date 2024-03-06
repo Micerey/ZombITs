@@ -7,6 +7,7 @@ public class CountdownTimer {
     public static void startTimer(int seconds, TimerCallback callback) {
         timer = new Timer(true);
         timer.schedule(new TimerTask() {
+            // @Override
             public void run() {
                 callback.onTimerFinish();
                 timer.cancel();
@@ -19,10 +20,4 @@ public class CountdownTimer {
             timer.cancel();
         }
     }
-
-    public static void resetTimer(int seconds, TimerCallback callback) {
-        cancelTimer();
-        startTimer(seconds, callback);
-    }
-
 }
