@@ -1,12 +1,9 @@
-// Player.java
-import java.util.Random;
-
 public class Player {
     private int lives;
     private int progress;
     private int stamina;
-    private String currentLocation;  // New field to store the current location
-    private String currentItem;  // New field to store the current item
+    private String currentLocation;
+    private String currentItem;
     private Inventory inventory;
 
     public Player(int lives, int progress, int stamina, Inventory inventory) {
