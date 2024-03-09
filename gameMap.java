@@ -1,58 +1,67 @@
 public class gameMap {
         public static void displayMap() {
                 System.out.println("╔" + "═".repeat(115) + "╗");
-                System.out.println(
-                                "║                                          ╔═══════════════════╗                  ╔═══════════════════╗             ║");
-                System.out.println(
-                                "║                                          ║                   ║                  ║                   ║             ║");
-                System.out.println(
-                                "║                                          ║                   ╙══════════════════║   Amphitheatre    ║             ║");
-                System.out.println(
-                                "║                                          ║     Pavilion      |- - - - - - - - - ║                   ║             ║");
-                System.out.println(
-                                "║                                          ║                   ╔══════════════════║                   ║             ║");
-                System.out.println(
-                                "║                                          ║                   ║                  ╚═══════════════════╝             ║");
-                System.out.println(
-                                "║                                          ╚═════╗ --- ╔═══════╝                                                    ║");
-                System.out.println(
-                                "║                                                ║  |  ║                                                            ║");
-                System.out.println(
-                                "║                                                ║  |  ║                                                            ║");
-                System.out.println(
-                                "║                                                ║  |  ║                                                            ║");
-                System.out.println(
-                                "║   ╔═══════════════════╗                 ╔══════╝ --- ╙══════╗                  ╔═══════════════════╗              ║");
-                System.out.println(
-                                "║   ║                   ║                 ║                   ║                  ║                   ║              ║");
-                System.out.println(
-                                "║   ║                   ╙═════════════════╝                   ╙══════════════════╝                   ║              ║");
-                System.out.println(
-                                "║   ║   ICS New Bldg.   | - - - - - - - - |    Student Park   |- - - - - - - - - |     Cafeteria     ║              ║");
-                System.out.println(
-                                "║   ║                   ╔═════════════════╗                   ╔══════════════════╗                   ║              ║");
-                System.out.println(
-                                "║   ╚═══════════════════╝                 ╚══════╗ --- ╔══════╝                  ╚═══════╗ --- ╔═════╝              ║");
-                System.out.println(
-                                "║                                                ║  |  ║                                 ║  |  ║                    ║");
-                System.out.println(
-                                "║                                                ║  |  ║                                 ║  |  ║                    ║");
-                System.out.println(
-                                "║                                                ║  |  ║                                 ║  |  ║                    ║");
-                System.out.println(
-                                "║   ╔═══════════════════╗                 ╔══════╝ --- ╚══════╗                  ╔═══════╝═════╚═════╗              ║");
-                System.out.println(
-                                "║   ║                   ║                 ║                   ║                  ║                   ║              ║");
-                System.out.println(
-                                "║   ║                   ╙═════════════════╝                   ╙══════════════════║                   ║              ║");
-                System.out.println(
-                                "║   ║   Covered Court   | - - - - - - - - |       Clinic      |- - - - - - - - - ║      Library      ║              ║");
-                System.out.println(
-                                "║   ║                   ╔═════════════════╗                   ╔══════════════════║                   ║              ║");
-                System.out.println(
-                                "║   ╚═══════════════════╝                 ╚═══════════════════╝                  ╚═══════════════════╝              ║");
-                System.out.println(
-                                "║                                                                                                                   ║");
+                System.out.println("║                                                                                  ══════════════════════════════════════                             ║");
+                System.out.println("║                                                                       ___________║_        | |             | |        _║___________  ║");
+                System.out.println("║                                                                       |           |       | |   Pavilion    | |       |            |             ║");
+                System.out.println("║                                                                       |           |_______| |_______________| |_______|            |            ║");
+                System.out.println("║                                                                       |           |       | |               | |       |            |            ║");
+                System.out.println("║                                                                       |           |       | |               | |       |            |            ║");
+                System.out.println("║                                                                       |           |       | |               | |       |            |            ║");
+                System.out.println("║                                                                       |           |       | |               | |       |            |            ║");
+                System.out.println("║                                                                       |           |       | |               | |       |            |            ║");
+                System.out.println("║                                                                       |___________|_______|_|_______________|_|_______|____________|            ║");
+                System.out.println("║                                                                                    ║                                 ║                               ║");
+                System.out.println("║                                                                                    ║                                 ╙══════════════════════════════════════════════════════             ║");
+                System.out.println("║                                                                                    ║                                 |- - - - - - - - - - - - - - - - - - - - - - - - - - -              ║");
+                System.out.println("║                                                                                    ║                                 ╔══════════════════════════════════════════════════════             ║");
+                System.out.println("║                                                                                    ║                                 ║                                                                           ║");
+                System.out.println("║                                                                                    ╚══════════════╗ --- ╔════════════╝                                                                           ║");
+                System.out.println("║                                                                                                   ║     ║                                                                                        ║");
+                System.out.println("║              ___________________________________________________                                  ║  |  ║                     ║");
+                System.out.println("║ _____________\\                                               /_____________                      ║     ║                     ║");
+                System.out.println("║ |             \\              ICS New Building               /             |                      ║  |  ║                     ║");
+                System.out.println("║ |              \\                                           /              |                      ║     ║                     ║");
+                System.out.println("║ |               \\                                         /               |                      ║  |  ║                     ║");
+                System.out.println("║ |                \\                                       /                |                      ║     ║                     ║");
+                System.out.println("║ |     _ _ _ _     \\_____________________________________/     _ _ _ _     |                      ║  |  ║                     ║");
+                System.out.println("║ |    |_|_|_|_|        |                               |       |_|_|_|_|    |                      ║     ║                     ║");
+                System.out.println("║ |    |_|_|_|_|        |                               |       |_|_|_|_|    |                      ║  |  ║                     ║");
+                System.out.println("║ |    |_|_|_|_|        |    ________      ________     |       |_|_|_|_|    |                      ║     ║      _________________________________________                    ║");
+                System.out.println("║ |                     |   |   |   |      |   |   |    |                    |                      ║  |  ║     /                                         \\                    ║");
+                System.out.println("║ |                     |   |  .|.  |      |  .|.  |    |                    |                      ║     ║    /___________________________________________\\                    ║");
+                System.out.println("║ |_____________________|___|___|___|______|___|___|____|____________________|                      ║  |  ║        ||                                  ||                ║");
+                System.out.println("║                   ║                                       ║                                       ║     ║        ||                                  ||               ║");
+                System.out.println("║                   ║                                       ╙═══════════════════════════════════════╝  |  ║        ||                                  ||             ║");
+                System.out.println("║                   ║                                       |- - - - - - - - - - - - - - - - - - - - - -  ║        ||__________________________________||                 ║");
+                System.out.println("║                   ║                                       ╔═════════════════════════════════════════════╝        ||__________________________________||                                  ║     ║                     ║");
+                System.out.println("║                   ║                                       ║                                                    __||__________________________________||__           ║");
+                System.out.println("║                   ╚══════════════╗ --- ╔══════════════════╝                                                  _| |                                      | |_           ║");
+                System.out.println("║                                  ║  |  ║                                                                    |___|______________________________________|___|  ║");
+                System.out.println("║                                  ║     ║                                                              ║");
+                System.out.println("║                                  ║  |  ║                                                            ║");
+                System.out.println("║                                  ║     ║                                                            ║");
+                System.out.println("║                                  ║  |  ║                                                            ║");
+                System.out.println("║                                  ║     ║                                                            ║");
+                System.out.println("║                                  ║  |  ║                                     ║");
+                System.out.println("║                                  ║     ║                                                                            ║");
+                System.out.println("║                                  ");
+                System.out.println("║   ╔═══════════════════╗                 ╔══════╝ --- ╙══════╗                  ╔═══════════════════╗              ║");
+                System.out.println("║   ║                   ║                 ║                   ║                  ║                   ║              ║");
+                System.out.println("║   ║                   ╙═════════════════╝                   ╙══════════════════╝                   ║              ║");
+                System.out.println("║   ║   ICS New Bldg.   | - - - - - - - - |    Student Park   |- - - - - - - - - |     Cafeteria     ║              ║");
+                System.out.println("║   ║                   ╔═════════════════╗                   ╔══════════════════╗                   ║              ║");
+                System.out.println("║   ╚═══════════════════╝                 ╚══════╗ --- ╔══════╝                  ╚═══════╗ --- ╔═════╝              ║");
+                System.out.println("║                                                ║  |  ║                                 ║  |  ║                    ║");
+                System.out.println("║                                                ║  |  ║                                 ║  |  ║                    ║");
+                System.out.println("║                                                ║  |  ║                                 ║  |  ║                    ║");
+                System.out.println("║   ╔═══════════════════╗                 ╔══════╝ --- ╚══════╗                                                     ║");
+                System.out.println("║   ║                   ║                 ║                   ║                                                     ║");
+                System.out.println("║   ║                   ╙═════════════════╝                   ╙══════════════════════════════════════════════════════                                   ║");
+                System.out.println("║   ║   Covered Court   | - - - - - - - - |       Clinic      |- - - - - - - - - - - - - - - - - - - - - - - - - - -                                    ║");
+                System.out.println("║   ║                   ╔═════════════════╗                   ╔══════════════════════════════════════════════════════                                   ║");
+                System.out.println("║   ╚═══════════════════╝                 ╚═══════════════════╝                                                     ║");
+                System.out.println("║                                                                                                                   ║");
                 System.out.println("╚" + "═".repeat(115) + "╝");
         }
 
@@ -253,26 +262,6 @@ public class gameMap {
                 System.out.println(
                                 "║                                                                                                                   ║");
                 System.out.println("╚" + "═".repeat(115) + "╝");
-                // System.out.println();
-                // System.out.println();
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ╔══════╝ --- ╙══════╗ ");
-                // System.out.println(" ║ ║ ");
-                // System.out.println(" ═══════════════════════════╝ ╙══════════════════");
-                // System.out.println(" - - - - - - - - - - - - - | Student Park |- - - - - - -
-                // - - ");
-                // System.out.println(" ═══════════════════════════╗ ╔══════════════════");
-                // System.out.println(" ╚══════╗ --- ╔══════╝ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
-                // System.out.println(" ║ | ║ ");
         }
 
         public static void displayCafe() {
