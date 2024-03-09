@@ -41,43 +41,57 @@ public class PlayerMovement {
         while (true) {
             // Display current location
             System.out.println("Current Location: " + locationNames[currentLocationIndex]);
-            if (!firstMove) {
-                System.out.println("Time taken to reach this destination: " + calculateTime(distances[currentLocationIndex][getLocationIndex(locationNames, startingLocation)]));
-            } else {
-                firstMove = false; // Set the flag to false after the first move
+            
+            // Display destinations from current location
+            System.out.println("\nDestinations:");
+            int destinationCount = 1;
+            for (String[] route : routes) {
+                if (route[0].startsWith(locationNames[currentLocationIndex])) {
+                    String destination = route[0].split(" to ")[1];
+                    System.out.println("   " + destinationCount + ". " + destination);
+                    destinationCount++;
+                }
             }
-            System.out.println();
-
+    
             // Sort routes based on distances
             Arrays.sort(routes, Comparator.comparing(route -> distances[getLocationIndex(locationNames, route[0].split(" to ")[0])][getLocationIndex(locationNames, route[0].split(" to ")[1])]));
-
-            // Display shortest route
-            System.out.println("Shortest Route/s:");
+            
+            // Display shortest route with time
+            System.out.println("\nShortest Route/s:");
             boolean shortestRouteDisplayed = false;
+            String shortestRouteDestination = null;
             for (String[] route : routes) {
                 if (route[0].startsWith(locationNames[currentLocationIndex])) {
                     String[] parts = route[0].split(" to ");
                     int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])];
+                    String time = calculateTime(distance);
                     if (!shortestRouteDisplayed && distance == distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])]) {
-                        System.out.println(locationNames[getLocationIndex(locationNames, parts[0])] + " ---> " +
-                                locationNames[getLocationIndex(locationNames, parts[1])] + ", Distance: " + distance + " meters");
-                        System.out.println();
+                        shortestRouteDestination = locationNames[getLocationIndex(locationNames, parts[1])];
+                        System.out.println("1. " + locationNames[currentLocationIndex] + " ---> " +
+                                shortestRouteDestination + ", Distance: " + distance + " meters");
+                        System.out.println("   Time: " + time + "\n");
                         shortestRouteDisplayed = true;
                     }
                 }
             }
-
-            // Display other possible routes
-System.out.println("Other Possible Routes from " + locationNames[currentLocationIndex] + ":");
-for (String[] route : routes) {
-    if (route[0].startsWith(locationNames[currentLocationIndex])) {
-        String[] parts = route[0].split(" to ");
-        int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])];
-        System.out.println(locationNames[getLocationIndex(locationNames, parts[0])] + " ---> " +
-                locationNames[getLocationIndex(locationNames, parts[1])] + ", Distance: " + distance + " meters");
-        System.out.println();
-    }
-}
+    
+            // Display other possible routes with time
+            System.out.println("Other Possible Routes from " + locationNames[currentLocationIndex] + ":");
+            int routeNumber = 2; // Starting route number for other possible routes
+            for (String[] route : routes) {
+                if (route[0].startsWith(locationNames[currentLocationIndex])) {
+                    String[] parts = route[0].split(" to ");
+                    int distance = distances[getLocationIndex(locationNames, parts[0])][getLocationIndex(locationNames, parts[1])];
+                    String time = calculateTime(distance);
+                    String destination = locationNames[getLocationIndex(locationNames, parts[1])];
+                    if (!destination.equals(shortestRouteDestination)) {
+                        System.out.println(routeNumber + ". " + locationNames[currentLocationIndex] + " ---> " +
+                                destination + ", Distance: " + distance + " meters");
+                        System.out.println("   Time: " + time + "\n");
+                        routeNumber++; // Increment route number only for non-shortest routes
+                    }
+                }
+            }
 
             // Check if the player has 4 counts of wooden planks
             if (player.hasEnoughWoodenPlanks(4)) {
@@ -232,8 +246,11 @@ for (String[] route : routes) {
     }
 
     private static String calculateTime(int distance) {
-        int walkingSpeed = 5; // meters per minute (example)
-        int time = distance / walkingSpeed;
-        return String.format("%d minutes", time);
+        int walkingSpeed = 300; // meters per hour (assuming average walking speed)
+        int timeInSeconds = (distance * 60 * 60) / walkingSpeed; // time in seconds
+        int minutes = (timeInSeconds % 3600) / 60; // minutes
+        int seconds = timeInSeconds % 60; // seconds
+        return String.format("%d minutes %d seconds", minutes, seconds);
     }
+    
 }
