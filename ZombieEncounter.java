@@ -16,7 +16,7 @@ public class ZombieEncounter {
             int num1 = random.nextInt(10) + 1;
             int num2 = random.nextInt(10) + 1;
             int operation = random.nextInt(4); // 0: Addition, 1: Subtraction, 2: Multiplication, 3: Division
-            double correctAnswer = calculateCorrectAnswer(num1, num2, operation);
+            int correctAnswer = calculateCorrectAnswer(num1, num2, operation);
 
             displayProblem(num1, num2, operation);
 
@@ -29,12 +29,12 @@ public class ZombieEncounter {
                 }
             });
 
-            double userAnswer;
+            int userAnswer;
             try {
-                userAnswer = sc.nextDouble();
+                userAnswer = sc.nextInt();
             } catch (java.util.InputMismatchException e) {
-                // Handle non-numeric input
-                System.out.println("Invalid input. Please enter a valid number.");
+                // Handle non-integer input
+                System.out.println("Invalid input. Please enter a valid integer.");
                 sc.nextLine(); // Consume the invalid input
                 CountdownTimer.cancelTimer();
                 return;
@@ -42,29 +42,14 @@ public class ZombieEncounter {
                 CountdownTimer.cancelTimer();
             }
 
-            // Compare user answer with correct answer within a tolerance
-            double tolerance = 0.001;
-            if (Math.abs(userAnswer - correctAnswer) < tolerance) {
+            if (userAnswer == correctAnswer) {
                 System.out.println("Congratulations! You defeated the zombie and can proceed.");
-                dropItemUponDefeat(player);
             } else if (player.hasItem("Baseball Bat")) {
                 System.out.println("You successfully defended with the baseball bat. No life lost.");
             } else {
                 System.out.println("The zombie got you! You lost a life.");
                 player.loseLife();
             }
-        }
-    }
-
-    private static void dropItemUponDefeat(Player player) {
-        double dropChance = random.nextDouble();
-
-        if (dropChance <= 0.3) { // 30% chance for the zombie to drop an item
-            String droppedItem = LocationItemsGenerator.generateItem("Zombie");
-            System.out.println("The defeated zombie dropped an item: " + droppedItem);
-            player.getInventory().addItem(droppedItem);
-        } else {
-            System.out.println("The defeated zombie didn't drop any items.");
         }
     }
 
@@ -88,22 +73,21 @@ public class ZombieEncounter {
                 break;
             case 3:
                 operator = "/";
-                // Ensure num1 is divisible by num2 and num2 is not 0
-                while (num1 % num2 != 0 || num2 == 0) {
-                    num1 = random.nextInt(10) + 1;
-                    num2 = random.nextInt(10) + 1;
-                }
+                // Ensure num1 is greater than num2 and both are even
+                num1 = Math.max(num1, num2 + 1);
+                num1 = makeEven(num1);
+                num2 = findDivisorForEven(num1);
                 break;
             default:
                 operator = "+"; // Default to addition
                 break;
         }
-
+    
         System.out.println("Solve the math problem to proceed:");
         System.out.print(num1 + " " + operator + " " + num2 + " = ");
     }
-
-    private static double calculateCorrectAnswer(int num1, int num2, int operation) {
+    
+    private static int calculateCorrectAnswer(int num1, int num2, int operation) {
         switch (operation) {
             case 0:
                 return num1 + num2;
@@ -112,9 +96,20 @@ public class ZombieEncounter {
             case 2:
                 return num1 * num2;
             case 3:
-                return (double) num1 / num2; // Use floating-point division
+                // Check if the division is exact, otherwise return a value to indicate an incorrect answer
+                return (num1 % num2 == 0) ? num1 / num2 : -1;
             default:
                 return num1 + num2; // Default to addition
         }
     }
+
+    private static int makeEven(int num) {
+        // Make sure num is even
+        return (num % 2 == 0) ? num : num + 1;
+    }
+
+    private static int findDivisorForEven(int num) {
+        // Find an appropriate divisor for even numbers
+        return (num % 4 == 0) ? 4 : (num % 2 == 0) ? 2 : 1;
+    }    
 }
