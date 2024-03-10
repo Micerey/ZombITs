@@ -51,24 +51,24 @@ public class ZombITsMain {
         static void displayCurrentMap() {
                 String currentLocation = ZombITsMain.getCurrentLocation();
 
-                switch (currentLocation) {
-                        case "Pavilion":
+                switch (currentLocation.toLowerCase()) {
+                        case "pavilion":
                                 locationIndicator = new int[] { 3, 52 };
                                 gameMap.displayMap(locationIndicator[0], locationIndicator[1]);
                                 break;
-                        case "ICS New Bldg.":
+                        case "ics new bldg.":
                                 locationIndicator = new int[] { 13, 13 };
                                 gameMap.displayMap(locationIndicator[0], locationIndicator[1]);
                                 break;
-                        case "Student Park":
+                        case "student park":
                                 locationIndicator = new int[] { 13, 51 };
                                 gameMap.displayMap(locationIndicator[0], locationIndicator[1]);
                                 break;
-                        case "Cafeteria":
+                        case "cafeteria":
                                 locationIndicator = new int[] { 13, 90 };
                                 gameMap.displayMap(locationIndicator[0], locationIndicator[1]);
                                 break;
-                        case "Covered Court":
+                        case "covered ourt":
                                 locationIndicator = new int[] { 22, 13 };
                                 gameMap.displayMap(locationIndicator[0], locationIndicator[1]);
                                 break;
@@ -81,10 +81,12 @@ public class ZombITsMain {
                 }
         }
 
+
         // Add a method to update the current location
-        public static void moveToLocation(String newLocation) {
-                currentLocation = newLocation;
-                System.out.println("Moved to " + newLocation);
+        public static void moveToLocation(String currentLocation) {
+                System.out.println("Before:" + currentLocation);
+                System.out.println("Moved to " + currentLocation);
+                System.out.println("After:" + currentLocation);
 
                 displayCurrentMap(); // Display the new map
         }
@@ -96,5 +98,9 @@ public class ZombITsMain {
 
         public static String getCurrentLocation() {
                 return currentLocation;
+        }
+
+        public static Random getRandom() {
+            return random;
         }
 }
