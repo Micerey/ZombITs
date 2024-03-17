@@ -17,7 +17,7 @@ class Subject {
         return name;
     }
 
-    public String description() {
+    public String getDescription() {
         return description;
     }
 
@@ -35,7 +35,7 @@ class Person {
     protected String id;
 
     public Person(String firstName, String middleName, String lastName, String id) {
-        this.name = firstName + middleName + lastName;
+        this.name = firstName + " " + middleName + " " + lastName;
         this.id = id;
     }
 
@@ -54,7 +54,6 @@ class Person {
 
 class Member extends Person {
     protected ArrayList<Subject> subjects;
-    protected ArrayList<Subject> description;
 
     public Member(String firstName, String middleName, String lastName, String id) {
         super(firstName, middleName, lastName, id);
@@ -128,7 +127,6 @@ public class UniversityManagementSystem {
     private static ArrayList<Instructor> instructors = new ArrayList<>();
     private static ArrayList<Student> students = new ArrayList<>();
     private static ArrayList<Subject> subjects = new ArrayList<>();
-    // private static ArrayList<Subject> description = new ArrayList<>();
     private static Random rand = new Random();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -237,6 +235,8 @@ public class UniversityManagementSystem {
     }
 
     private static void displayDisplayMenu() {
+        displayStudentInformationIn2DArrayFormat();
+        
         System.out.println("Display Menu");
         System.out.println("1. Display Student Information and Subject Details");
         System.out.println("2. Display Instructor Information and Handled Subjects");
@@ -244,7 +244,7 @@ public class UniversityManagementSystem {
         System.out.println();
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
-
+    
         switch (choice) {
             case 1:
                 if (students.isEmpty()) {
@@ -270,24 +270,62 @@ public class UniversityManagementSystem {
                 System.out.println("Invalid choice!");
         }
     }
-
+    
+    private static void displayStudentInformationIn2DArrayFormat() {
+        int maxStudentNameLength = getMaxNameLength(students);
+        int maxInstructorNameLength = getMaxNameLength(instructors);
+        
+        // Determine the length of the header for students
+        int studentHeaderLength = Math.max(maxStudentNameLength, "STUDENT".length());
+        
+        // Determine the length of the header for instructors
+        int instructorHeaderLength = Math.max(maxInstructorNameLength, "INSTRUCTOR".length());
+        
+        // Print header for students
+        System.out.println("+-----------------------------------------+");
+        System.out.printf("| %-"+ (studentHeaderLength + 2) + "s | %-5s | %-7s |\n", "STUDENT", "CODE", "SUBJECT");
+        System.out.println("+-----------------------------------------+");
+        for (Student student : students) {
+            System.out.printf("| %-"+ (studentHeaderLength + 2) + "s | %-8s | %-7s |\n", student.getName(), student.getId(), "");
+            for (Subject subject : student.getSubjects()) {
+                System.out.printf("| %-"+ (studentHeaderLength + 2) + "s | %-8s | %-7s (%s) |\n", "", "", subject.getName(), subject.getCode());
+            }
+            System.out.println("+-----------------------------------------+");
+        }
+        
+        // Print header for instructors
+        System.out.printf("| %-"+ (instructorHeaderLength + 2) + "s | %-5s | %-7s |\n", "INSTRUCTOR", "CODE", "SUBJECT");
+        System.out.println("+-----------------------------------------+");
+    }    
+     
+    private static int getMaxNameLength(ArrayList<? extends Person> people) {
+        int maxLength = 0;
+        for (Person person : people) {
+            int length = person.getName().length();
+            if (length > maxLength) {
+                maxLength = length;
+            }
+        }
+        return maxLength;
+    }
+    
+    
     private static void addInstructor() {
-        System.out.println("Please fill all the informations needed. Fields with '*' are required.");
+        System.out.println("Please fill all the information needed. Fields with '*' are required.");
         System.out.println("Press enter to continue...");
         scanner.nextLine();
         scanner.nextLine();
         System.out.print("* First name: ");
-        String firstName = scanner.next();
+        String firstName = scanner.nextLine();
         System.out.print("* Last name: ");
-        String lastName = scanner.next();
+        String lastName = scanner.nextLine();
         System.out.print(" Middle name: ");
-        scanner.nextLine();
         String middleName = scanner.nextLine().trim(); // Read the whole line and trim extra spaces
         if (middleName.isEmpty()) {
-            middleName = " "; // If middle name is empty, make it null
+            middleName = ""; // If middle name is empty, make it null
         }
         System.out.print("\n" + "* Address: "); // Consume newline
-        String address = scanner.next();
+        String address = scanner.nextLine();
         System.out.print("* Age: ");
         int age = scanner.nextInt();
 
@@ -308,24 +346,23 @@ public class UniversityManagementSystem {
     }
 
     private static void addStudent() {
-        System.out.println("Please fill all the informations needed. Fields with '*' are required.");
+        System.out.println("Please fill all the information needed. Fields with '*' are required.");
         System.out.println("Press enter to continue...");
         scanner.nextLine();
         scanner.nextLine();
 
         System.out.println("Add student information.");
         System.out.print("* First name: ");
-        String firstName = scanner.next();
+        String firstName = scanner.nextLine();
         System.out.print("* Last name: ");
-        String lastName = scanner.next();
+        String lastName = scanner.nextLine();
         System.out.print(" Middle name: ");
-        scanner.nextLine();
         String middleName = scanner.nextLine().trim(); // Read the whole line and trim extra spaces
         if (middleName.isEmpty()) {
-            middleName = " "; // If middle name is empty, make it null
+            middleName = ""; // If middle name is empty, make it null
         }
         System.out.print("\n" + "* Address: "); // Consume newline
-        String address = scanner.next();
+        String address = scanner.nextLine();
         System.out.print("* Age: ");
         int age = scanner.nextInt();
         if (age < 17) {
@@ -348,7 +385,6 @@ public class UniversityManagementSystem {
         scanner.nextLine();
         String name = scanner.nextLine();
         System.out.print("Enter subject description: ");
-        scanner.nextLine();
         String description = scanner.nextLine();
         String code = generateSubjectCode();
         Subject subject = new Subject(name, description, code);
@@ -703,19 +739,19 @@ public class UniversityManagementSystem {
         }
     }
 
-    private static Instructor findInstructorById(String id) {
-        for (Instructor instructor : instructors) {
-            if (instructor.getId().equals(id)) {
-                return instructor;
+    private static Student findStudentById(String id) {
+        for (Student student : students) {
+            if (student.getId().equals(id)) {
+                return student;
             }
         }
         return null;
     }
 
-    private static Student findStudentById(String id) {
-        for (Student student : students) {
-            if (student.getId().equals(id)) {
-                return student;
+    private static Instructor findInstructorById(String id) {
+        for (Instructor instructor : instructors) {
+            if (instructor.getId().equals(id)) {
+                return instructor;
             }
         }
         return null;
