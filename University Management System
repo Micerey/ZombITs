@@ -4,15 +4,21 @@ import java.util.Scanner;
 
 class Subject {
     private String name;
+    private String description;
     private String code;
 
-    public Subject(String name, String code) {
+    public Subject(String name, String description, String code) {
         this.name = name;
+        this.description = description;
         this.code = code;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getCode() {
@@ -28,8 +34,8 @@ class Person {
     protected String name;
     protected String id;
 
-    public Person(String name, String id) {
-        this.name = name;
+    public Person(String firstName, String middleName, String lastName, String id) {
+        this.name = firstName + " " + middleName + " " + lastName;
         this.id = id;
     }
 
@@ -49,8 +55,8 @@ class Person {
 class Member extends Person {
     protected ArrayList<Subject> subjects;
 
-    public Member(String name, String id) {
-        super(name, id);
+    public Member(String firstName, String middleName, String lastName, String id) {
+        super(firstName, middleName, lastName, id);
         subjects = new ArrayList<>();
     }
 
@@ -67,9 +73,10 @@ class Instructor extends Member {
     private String address;
     private int age;
 
-    public Instructor(String name, String id, String address) {
-        super(name, id);
+    public Instructor(String firstName, String middleName, String lastName, String id, String address, int age) {
+        super(firstName, middleName, lastName, id);
         this.address = address;
+        this.age = age;
     }
 
     public String getAddress() {
@@ -93,8 +100,8 @@ class Student extends Member {
     private String address;
     private int age;
 
-    public Student(String name, String id, String address, int age) {
-        super(name, id);
+    public Student(String firstName, String middleName, String lastName, String id, String address, int age) {
+        super(firstName, middleName, lastName, id);
         this.address = address;
         this.age = age;
     }
@@ -228,6 +235,7 @@ public class UniversityManagementSystem {
     }
 
     private static void displayDisplayMenu() {
+        displayStudentAndInstructorInformation();
         System.out.println("Display Menu");
         System.out.println("1. Display Student Information and Subject Details");
         System.out.println("2. Display Instructor Information and Handled Subjects");
@@ -235,7 +243,7 @@ public class UniversityManagementSystem {
         System.out.println();
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
-
+    
         switch (choice) {
             case 1:
                 if (students.isEmpty()) {
@@ -261,27 +269,74 @@ public class UniversityManagementSystem {
                 System.out.println("Invalid choice!");
         }
     }
-
-    private static void addInstructor() {
-        System.out.print("Enter instructor name (Lastname, Firstname, Middlename - Optional): ");
-        scanner.nextLine();
-        String name = scanner.nextLine();
-        System.out.print("Enter instructor age: ");
-        int age = scanner.nextInt();
+    
+    private static void displayStudentAndInstructorInformation() {
         System.out.println();
-
+        // Check if there are students
+        if (students.isEmpty()) {
+            System.out.println("No students found.");
+        } else {
+            // Print header
+            System.out.println("Students:");
+            
+            // Print student information
+            for (Student student : students) {
+                System.out.println("Name: " + student.getName() + ", Code: " + student.getId());
+            }
+        }
+    
+        System.out.println();
+        // Check if there are instructors
+        if (instructors.isEmpty()) {
+            System.out.println("No instructors found.");
+        } else {
+            // Print header
+            System.out.println("Instructors:");
+            
+            // Print instructor information
+            for (Instructor instructor : instructors) {
+                System.out.println("Name: " + instructor.getName() + ", Code: " + instructor.getId());
+            }
+        }
+        System.out.println();
+    }
+    
+    private static void addInstructor() {
+        System.out.println("Please fill all the information needed. Fields with '*' are required.");
+        System.out.println("Press enter to continue...");
+        scanner.nextLine();
+        scanner.nextLine();
+        System.out.print("* First name: ");
+        String firstName = scanner.nextLine();
+        if (firstName.trim().isEmpty()) {
+            System.out.println("First name cannot be empty. Please try again.");
+            addInstructor();
+            return;
+        }
+        System.out.print("* Last name: ");
+        String lastName = scanner.nextLine();
+        if (lastName.trim().isEmpty()) {
+            System.out.println("Last name cannot be empty. Please try again.");
+            addInstructor();
+            return;
+        }
+        System.out.print(" Middle name: ");
+        String middleName = scanner.nextLine().trim(); // Read the whole line and trim extra spaces
+        if (middleName.isEmpty()) {
+            middleName = ""; // If middle name is empty, make it null
+        }
+        System.out.print("\n" + "* Address: "); // Consume newline
+        String address = scanner.nextLine();
+        System.out.print("* Age: ");
+        int age = scanner.nextInt();
+    
         if (age < 24) {
             System.out.println("Error: Instructor must be at least 24 years old.");
             return;
         }
-
-        System.out.print("Enter instructor address: ");
-        scanner.nextLine();
-        String address = scanner.nextLine();
-        System.out.println();
-
+    
         String id = generateInstructorId();
-        Instructor instructor = new Instructor(name, id, address);
+        Instructor instructor = new Instructor(firstName, middleName, lastName, id, address, age);
         instructors.add(instructor);
         System.out.println("Instructor added successfully. ID: " + id);
         System.out.println();
@@ -292,24 +347,42 @@ public class UniversityManagementSystem {
     }
 
     private static void addStudent() {
-        System.out.print("Enter student name (Lastname, Firstname, Middlename - Optional): ");
+        System.out.println("Please fill all the information needed. Fields with '*' are required.");
+        System.out.println("Press enter to continue...");
         scanner.nextLine();
-        String name = scanner.nextLine();
-        System.out.println();
-        System.out.print("Enter student address: ");
-        String address = scanner.nextLine();
-        System.out.println();
-        System.out.print("Enter student age: ");
-        int age = scanner.nextInt();
-        System.out.println();
-        if (age < 17) {
-            System.out.println("Error: Student must be at least 17 years old.");
-            System.out.println();
+        scanner.nextLine();
+    
+        System.out.println("Add student information.");
+        System.out.print("* First name: ");
+        String firstName = scanner.nextLine();
+        if (firstName.trim().isEmpty()) {
+            System.out.println("First name cannot be empty. Please try again.");
+            addStudent();
             return;
         }
-
+        System.out.print("* Last name: ");
+        String lastName = scanner.nextLine();
+        if (lastName.trim().isEmpty()) {
+            System.out.println("Last name cannot be empty. Please try again.");
+            addStudent();
+            return;
+        }
+        System.out.print(" Middle name: ");
+        String middleName = scanner.nextLine().trim(); // Read the whole line and trim extra spaces
+        if (middleName.isEmpty()) {
+            middleName = ""; // If middle name is empty, make it null
+        }
+        System.out.print("\n" + "* Address: "); // Consume newline
+        String address = scanner.nextLine();
+        System.out.print("* Age: ");
+        int age = scanner.nextInt();
+        if (age < 17) {
+            System.out.println("Error: Student must be at least 17 years old.");
+            return;
+        }
+    
         String id = generateStudentId();
-        Student student = new Student(name, id, address, age);
+        Student student = new Student(firstName, middleName, lastName, id, address, age);
         students.add(student);
         System.out.println("Student added successfully. ID: " + id);
     }
@@ -322,8 +395,10 @@ public class UniversityManagementSystem {
         System.out.print("Enter subject name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
+        System.out.print("Enter subject description: ");
+        String description = scanner.nextLine();
         String code = generateSubjectCode();
-        Subject subject = new Subject(name, code);
+        Subject subject = new Subject(name, description, code);
         subjects.add(subject);
         System.out.println("Subject added successfully. Code: " + code);
     }
@@ -385,7 +460,9 @@ public class UniversityManagementSystem {
         if (student != null) {
             System.out.println("Student Name: " + student.getName());
             System.out.println("Student ID: " + student.getId());
-            System.out.println("Subjects:");
+            System.out.println("Address: " + student.getAddress());
+            System.out.println("Age: " + student.getAge());
+            System.out.println("Subjects: ");
             for (Subject subject : student.getSubjects()) {
                 System.out.println("- " + subject.getName() + " (" + subject.getCode() + ")");
             }
@@ -402,6 +479,8 @@ public class UniversityManagementSystem {
         if (instructor != null) {
             System.out.println("Instructor Name: " + instructor.getName());
             System.out.println("Instructor ID: " + instructor.getId());
+            System.out.println("Address: " + instructor.getAddress());
+            System.out.println("Age: " + instructor.getAge());
             System.out.println("Handled Subjects:");
             for (Subject subject : instructor.getSubjects()) {
                 System.out.println("- " + subject.getName() + " (" + subject.getCode() + ")");
@@ -518,29 +597,43 @@ public class UniversityManagementSystem {
     }
 
     private static void editStudent() {
-        System.out.print("Enter student ID to edit: ");
-        String id = scanner.next();
-        Student student = findStudentById(id);
-        if (student != null) {
-            // Display student details
-            System.out.println("Current Details:");
-            System.out.println("Name: " + student.getName());
-            System.out.println("Age: " + student.getAge());
-            System.out.println("Address: " + student.getAddress());
+            System.out.print("Enter student ID to edit: ");
+            String id = scanner.next();
+            Student student = findStudentById(id);
+            if (student != null) {
+                // Display student details
+                System.out.println("Current Details:");
+                System.out.println("Name: " + student.getName());
+                System.out.println("Age: " + student.getAge());
+                System.out.println("Address: " + student.getAddress());
     
-            // Prompt for editing
-            System.out.println("1. Edit Name");
-            System.out.println("2. Edit Age");
-            System.out.println("3. Edit Address");
-            System.out.println();
-            System.out.print("Enter field to edit: ");
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter new name: ");
-                    scanner.nextLine(); // Consume newline
-                    String newName = scanner.nextLine();
-                    student.setName(newName);
+                // Prompt for editing
+                System.out.println("1. Edit Name");
+                System.out.println("2. Edit Age");
+                System.out.println("3. Edit Address");
+                System.out.println();
+                System.out.print("Enter field to edit: ");
+                int choice = scanner.nextInt();
+                switch (choice) {
+                
+                    case 1:
+                    System.out.println("Edit student information.");
+                    System.out.println("\nPlease fill all the information needed. Fields with '*' are required.");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    scanner.nextLine();
+    
+                    
+                    System.out.print("Enter new first name: ");
+                    String newFirstName = scanner.next();
+                    System.out.print("Enter new last name: ");
+                    String newLastName = scanner.next();
+                    System.out.print("Enter new middle name: ");
+                    String newMiddleName = scanner.next();
+                
+                    // Update the student's name
+                    String fullName = newFirstName + " " + newMiddleName + " " + newLastName;
+                    student.setName(fullName);
                     break;
                 case 2:
                     System.out.print("Enter new age: ");
@@ -557,7 +650,7 @@ public class UniversityManagementSystem {
                     System.out.println("Invalid choice!");
                     return;
             }
-    
+
             // Confirm changes
             System.out.println("Updated Details:");
             System.out.println("Name: " + student.getName());
@@ -576,7 +669,7 @@ public class UniversityManagementSystem {
             System.out.println();
         }
     }
-    
+
     private static void editInstructor() {
         System.out.print("Enter instructor ID to edit: ");
         String id = scanner.next();
@@ -587,7 +680,7 @@ public class UniversityManagementSystem {
             System.out.println("Name: " + instructor.getName());
             System.out.println("Age: " + instructor.getAge());
             System.out.println("Address: " + instructor.getAddress());
-    
+
             // Prompt for editing
             System.out.println("1. Edit Name");
             System.out.println("2. Edit Age");
@@ -597,10 +690,22 @@ public class UniversityManagementSystem {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.print("Enter new name: ");
-                    scanner.nextLine(); // Consume newline
-                    String newName = scanner.nextLine();
-                    instructor.setName(newName);
+                System.out.println("Edit instructor information.");
+                    System.out.println("\nPlease fill all the information needed. Fields with '*' are required.");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    scanner.nextLine();
+
+                    System.out.print("* New First name: ");
+                    String newFirstName = scanner.next();
+                    System.out.print("* New Last name: ");
+                    String newLastName = scanner.next();
+                    System.out.print("* New Middle name: ");
+                    String newMiddleName = scanner.next();
+
+                    String fullName = newFirstName + " " + newMiddleName + " " + newLastName;
+
+                    instructor.setName(fullName);
                     break;
                 case 2:
                     System.out.print("Enter new age: ");
@@ -617,7 +722,7 @@ public class UniversityManagementSystem {
                     System.out.println("Invalid choice!");
                     return;
             }
-    
+
             // Confirm changes
             System.out.println("Updated Details:");
             System.out.println("Name: " + instructor.getName());
@@ -636,7 +741,7 @@ public class UniversityManagementSystem {
             System.out.println();
         }
     }
-    
+
     private static void editSubject() {
         System.out.print("Enter subject code to edit: ");
         String code = scanner.next();
@@ -646,13 +751,13 @@ public class UniversityManagementSystem {
             System.out.println("Current Details:");
             System.out.println("Name: " + subject.getName());
             System.out.println("Code: " + subject.getCode());
-    
+
             // Prompt for editing
             System.out.print("Enter new subject name: ");
             scanner.nextLine(); // Consume newline
             String newName = scanner.nextLine();
             subject.setName(newName);
-            
+
             // Confirm changes
             System.out.println("Updated Details:");
             System.out.println("Name: " + subject.getName());
@@ -670,20 +775,20 @@ public class UniversityManagementSystem {
             System.out.println();
         }
     }
-    
-    private static Instructor findInstructorById(String id) {
-        for (Instructor instructor : instructors) {
-            if (instructor.getId().equals(id)) {
-                return instructor;
-            }
-        }
-        return null;
-    }
 
     private static Student findStudentById(String id) {
         for (Student student : students) {
             if (student.getId().equals(id)) {
                 return student;
+            }
+        }
+        return null;
+    }
+
+    private static Instructor findInstructorById(String id) {
+        for (Instructor instructor : instructors) {
+            if (instructor.getId().equals(id)) {
+                return instructor;
             }
         }
         return null;
