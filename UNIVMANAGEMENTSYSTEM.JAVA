@@ -606,29 +606,43 @@ public class UniversityManagementSystem {
     }
 
     private static void editStudent() {
-        System.out.print("Enter student ID to edit: ");
-        String id = scanner.next();
-        Student student = findStudentById(id);
-        if (student != null) {
-            // Display student details
-            System.out.println("Current Details:");
-            System.out.println("Name: " + student.getName());
-            System.out.println("Age: " + student.getAge());
-            System.out.println("Address: " + student.getAddress());
-
-            // Prompt for editing
-            System.out.println("1. Edit Name");
-            System.out.println("2. Edit Age");
-            System.out.println("3. Edit Address");
-            System.out.println();
-            System.out.print("Enter field to edit: ");  
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter new name: ");
-                    scanner.nextLine(); // Consume newline
-                    String newName = scanner.nextLine();
-                    student.setName(newName);
+            System.out.print("Enter student ID to edit: ");
+            String id = scanner.next();
+            Student student = findStudentById(id);
+            if (student != null) {
+                // Display student details
+                System.out.println("Current Details:");
+                System.out.println("Name: " + student.getName());
+                System.out.println("Age: " + student.getAge());
+                System.out.println("Address: " + student.getAddress());
+    
+                // Prompt for editing
+                System.out.println("1. Edit Name");
+                System.out.println("2. Edit Age");
+                System.out.println("3. Edit Address");
+                System.out.println();
+                System.out.print("Enter field to edit: ");
+                int choice = scanner.nextInt();
+                switch (choice) {
+                
+                    case 1:
+                    System.out.println("Edit student information.");
+                    System.out.println("\nPlease fill all the information needed. Fields with '*' are required.");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    scanner.nextLine();
+    
+                    
+                    System.out.print("Enter new first name: ");
+                    String newFirstName = scanner.next();
+                    System.out.print("Enter new last name: ");
+                    String newLastName = scanner.next();
+                    System.out.print("Enter new middle name: ");
+                    String newMiddleName = scanner.next();
+                
+                    // Update the student's name
+                    String fullName = newFirstName + " " + newMiddleName + " " + newLastName;
+                    student.setName(fullName);
                     break;
                 case 2:
                     System.out.print("Enter new age: ");
@@ -685,10 +699,22 @@ public class UniversityManagementSystem {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.print("Enter new name: ");
-                    scanner.nextLine(); // Consume newline
-                    String newName = scanner.nextLine();
-                    instructor.setName(newName);
+                System.out.println("Edit instructor information.");
+                    System.out.println("\nPlease fill all the information needed. Fields with '*' are required.");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine();
+                    scanner.nextLine();
+
+                    System.out.print("* New First name: ");
+                    String newFirstName = scanner.next();
+                    System.out.print("* New Last name: ");
+                    String newLastName = scanner.next();
+                    System.out.print("* New Middle name: ");
+                    String newMiddleName = scanner.next();
+
+                    String fullName = newFirstName + " " + newMiddleName + " " + newLastName;
+
+                    instructor.setName(fullName);
                     break;
                 case 2:
                     System.out.print("Enter new age: ");
