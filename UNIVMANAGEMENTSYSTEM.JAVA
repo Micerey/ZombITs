@@ -4,15 +4,21 @@ import java.util.Scanner;
 
 class Subject {
     private String name;
+    private String description;
     private String code;
 
-    public Subject(String name, String code) {
+    public Subject(String name, String description, String code) {
         this.name = name;
+        this.description = description;
         this.code = code;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String description() {
+        return description;
     }
 
     public String getCode() {
@@ -48,6 +54,7 @@ class Person {
 
 class Member extends Person {
     protected ArrayList<Subject> subjects;
+    protected ArrayList<Subject> description;
 
     public Member(String firstName, String middleName, String lastName, String id) {
         super(firstName, middleName, lastName, id);
@@ -121,6 +128,7 @@ public class UniversityManagementSystem {
     private static ArrayList<Instructor> instructors = new ArrayList<>();
     private static ArrayList<Student> students = new ArrayList<>();
     private static ArrayList<Subject> subjects = new ArrayList<>();
+    // private static ArrayList<Subject> description = new ArrayList<>();
     private static Random rand = new Random();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -339,8 +347,11 @@ public class UniversityManagementSystem {
         System.out.print("Enter subject name: ");
         scanner.nextLine();
         String name = scanner.nextLine();
+        System.out.print("Enter subject description: ");
+        scanner.nextLine();
+        String description = scanner.nextLine();
         String code = generateSubjectCode();
-        Subject subject = new Subject(name, code);
+        Subject subject = new Subject(name, description, code);
         subjects.add(subject);
         System.out.println("Subject added successfully. Code: " + code);
     }
