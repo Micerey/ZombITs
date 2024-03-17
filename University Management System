@@ -522,6 +522,13 @@ public class UniversityManagementSystem {
         String id = scanner.next();
         Student student = findStudentById(id);
         if (student != null) {
+            // Display student details
+            System.out.println("Current Details:");
+            System.out.println("Name: " + student.getName());
+            System.out.println("Age: " + student.getAge());
+            System.out.println("Address: " + student.getAddress());
+    
+            // Prompt for editing
             System.out.println("1. Edit Name");
             System.out.println("2. Edit Age");
             System.out.println("3. Edit Address");
@@ -534,42 +541,59 @@ public class UniversityManagementSystem {
                     scanner.nextLine(); // Consume newline
                     String newName = scanner.nextLine();
                     student.setName(newName);
-                    System.out.println("Name updated successfully.");
-                    System.out.println();
                     break;
                 case 2:
                     System.out.print("Enter new age: ");
                     int newAge = scanner.nextInt();
                     student.setAge(newAge);
-                    System.out.println("Age updated successfully.");
-                    System.out.println();
                     break;
                 case 3:
                     System.out.print("Enter new address: ");
                     scanner.nextLine(); // Consume newline
                     String newAddress = scanner.nextLine();
                     student.setAddress(newAddress);
-                    System.out.println("Address updated successfully.");
-                    System.out.println();
                     break;
                 default:
                     System.out.println("Invalid choice!");
+                    return;
+            }
+    
+            // Confirm changes
+            System.out.println("Updated Details:");
+            System.out.println("Name: " + student.getName());
+            System.out.println("Age: " + student.getAge());
+            System.out.println("Address: " + student.getAddress());
+            System.out.println();
+            System.out.print("Confirm changes? (yes/no): ");
+            String confirm = scanner.next();
+            if (confirm.equalsIgnoreCase("yes")) {
+                System.out.println("Changes confirmed.");
+            } else {
+                System.out.println("Changes discarded.");
             }
         } else {
             System.out.println("Student not found.");
             System.out.println();
         }
     }
-
+    
     private static void editInstructor() {
         System.out.print("Enter instructor ID to edit: ");
         String id = scanner.next();
         Instructor instructor = findInstructorById(id);
         if (instructor != null) {
+            // Display instructor details
+            System.out.println("Current Details:");
+            System.out.println("Name: " + instructor.getName());
+            System.out.println("Age: " + instructor.getAge());
+            System.out.println("Address: " + instructor.getAddress());
+    
+            // Prompt for editing
             System.out.println("1. Edit Name");
             System.out.println("2. Edit Age");
             System.out.println("3. Edit Address");
-            System.out.print("\nEnter field to edit: ");
+            System.out.println();
+            System.out.print("Enter field to edit: ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -577,49 +601,76 @@ public class UniversityManagementSystem {
                     scanner.nextLine(); // Consume newline
                     String newName = scanner.nextLine();
                     instructor.setName(newName);
-                    System.out.println("Name updated successfully.");
-                    System.out.println();
                     break;
                 case 2:
                     System.out.print("Enter new age: ");
                     int newAge = scanner.nextInt();
                     instructor.setAge(newAge);
-                    System.out.println("Age updated successfully.");
-                    System.out.println();
                     break;
                 case 3:
                     System.out.print("Enter new address: ");
                     scanner.nextLine(); // Consume newline
                     String newAddress = scanner.nextLine();
                     instructor.setAddress(newAddress);
-                    System.out.println("Address updated successfully.");
-                    System.out.println();
                     break;
                 default:
                     System.out.println("Invalid choice!");
+                    return;
+            }
+    
+            // Confirm changes
+            System.out.println("Updated Details:");
+            System.out.println("Name: " + instructor.getName());
+            System.out.println("Age: " + instructor.getAge());
+            System.out.println("Address: " + instructor.getAddress());
+            System.out.println();
+            System.out.print("Confirm changes? (yes/no): ");
+            String confirm = scanner.next();
+            if (confirm.equalsIgnoreCase("yes")) {
+                System.out.println("Changes confirmed.");
+            } else {
+                System.out.println("Changes discarded.");
             }
         } else {
             System.out.println("Instructor not found.");
             System.out.println();
         }
     }
-
+    
     private static void editSubject() {
         System.out.print("Enter subject code to edit: ");
         String code = scanner.next();
         Subject subject = findSubjectByCode(code);
         if (subject != null) {
+            // Display subject details
+            System.out.println("Current Details:");
+            System.out.println("Name: " + subject.getName());
+            System.out.println("Code: " + subject.getCode());
+    
+            // Prompt for editing
             System.out.print("Enter new subject name: ");
             scanner.nextLine(); // Consume newline
             String newName = scanner.nextLine();
             subject.setName(newName);
-            System.out.println("Subject name updated successfully.");
+            
+            // Confirm changes
+            System.out.println("Updated Details:");
+            System.out.println("Name: " + subject.getName());
+            System.out.println("Code: " + subject.getCode());
             System.out.println();
+            System.out.print("Confirm changes? (yes/no): ");
+            String confirm = scanner.next();
+            if (confirm.equalsIgnoreCase("yes")) {
+                System.out.println("Changes confirmed.");
+            } else {
+                System.out.println("Changes discarded.");
+            }
         } else {
             System.out.println("Subject not found.");
+            System.out.println();
         }
     }
-
+    
     private static Instructor findInstructorById(String id) {
         for (Instructor instructor : instructors) {
             if (instructor.getId().equals(id)) {
