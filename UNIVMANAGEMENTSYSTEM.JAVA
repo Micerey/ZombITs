@@ -317,8 +317,18 @@ public class UniversityManagementSystem {
         scanner.nextLine();
         System.out.print("* First name: ");
         String firstName = scanner.nextLine();
+        if (firstName.trim().isEmpty()) {
+            System.out.println("First name cannot be empty. Please try again.");
+            addInstructor();
+            return;
+        }
         System.out.print("* Last name: ");
         String lastName = scanner.nextLine();
+        if (lastName.trim().isEmpty()) {
+            System.out.println("Last name cannot be empty. Please try again.");
+            addInstructor();
+            return;
+        }
         System.out.print(" Middle name: ");
         String middleName = scanner.nextLine().trim(); // Read the whole line and trim extra spaces
         if (middleName.isEmpty()) {
@@ -328,12 +338,12 @@ public class UniversityManagementSystem {
         String address = scanner.nextLine();
         System.out.print("* Age: ");
         int age = scanner.nextInt();
-
+    
         if (age < 24) {
             System.out.println("Error: Instructor must be at least 24 years old.");
             return;
         }
-
+    
         String id = generateInstructorId();
         Instructor instructor = new Instructor(firstName, middleName, lastName, id, address, age);
         instructors.add(instructor);
@@ -350,12 +360,22 @@ public class UniversityManagementSystem {
         System.out.println("Press enter to continue...");
         scanner.nextLine();
         scanner.nextLine();
-
+    
         System.out.println("Add student information.");
         System.out.print("* First name: ");
         String firstName = scanner.nextLine();
+        if (firstName.trim().isEmpty()) {
+            System.out.println("First name cannot be empty. Please try again.");
+            addStudent();
+            return;
+        }
         System.out.print("* Last name: ");
         String lastName = scanner.nextLine();
+        if (lastName.trim().isEmpty()) {
+            System.out.println("Last name cannot be empty. Please try again.");
+            addStudent();
+            return;
+        }
         System.out.print(" Middle name: ");
         String middleName = scanner.nextLine().trim(); // Read the whole line and trim extra spaces
         if (middleName.isEmpty()) {
@@ -369,7 +389,7 @@ public class UniversityManagementSystem {
             System.out.println("Error: Student must be at least 17 years old.");
             return;
         }
-
+    
         String id = generateStudentId();
         Student student = new Student(firstName, middleName, lastName, id, address, age);
         students.add(student);
@@ -601,7 +621,7 @@ public class UniversityManagementSystem {
             System.out.println("2. Edit Age");
             System.out.println("3. Edit Address");
             System.out.println();
-            System.out.print("Enter field to edit: ");
+            System.out.print("Enter field to edit: ");  
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
