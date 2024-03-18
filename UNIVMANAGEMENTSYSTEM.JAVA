@@ -137,8 +137,9 @@ public class UniversityManagementSystem {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        int choice;
-
+        int choice = 0;
+        System.out.println("\n\n\n\n");
+        
         System.out.println(ANSI_RED + " ".repeat(10) + //
                 "█ █ █▄ █ █ █ █ █▀▀ █▀█ █▀ █ ▀█▀ █▄█   █▀█ █▀█ █▀█ █▀▀ █ █   █ █▄ █ █▀▀  █▀▄▀█ ▄▀█ █▄ █ ▄▀█ █▀▀ █▀▀ █▀▄▀█ █▀▀ █▄ █ ▀█▀\r\n"
                 + " ".repeat(10) + //
@@ -157,157 +158,204 @@ public class UniversityManagementSystem {
             System.out.println(" ".repeat(50) + "3. Display \t6. Exit");
             System.out.println(" ".repeat(42) + "+---------------------------------------+");
             System.out.print(ANSI_BLUE + " ".repeat(50) + "Enter your choice: " + ANSI_RESET);
-            choice = scanner.nextInt();
-            System.out.println();
-            border();
-
-            switch (choice) {
-                case 1:
-                    displayAddMenu();
-                    break;
-                case 2:
-                    displayAssignMenu();
-                    break;
-                case 3:
-                    displayDisplayMenu();
-                    break;
-                case 4:
-                    displayDeleteMenu();
-                    break;
-                case 5:
-                    displayEditMenu();
-                    break;
-                case 6:
-                    System.out.println("\tExiting...");
-                    break;
-                default:
-                    System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
+        
+            // Check if the input is an integer
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                System.out.println();
+                border();
+        
+                switch (choice) {
+                    case 1:
+                        displayAddMenu();
+                        break;
+                    case 2:
+                        displayAssignMenu();
+                        break;
+                    case 3:
+                        displayDisplayMenu();
+                        break;
+                    case 4:
+                        displayDeleteMenu();
+                        break;
+                    case 5:
+                        displayEditMenu();
+                        break;
+                    case 6:
+                        System.out.println("\tExiting...");
+                        break;
+                    default:
+                        System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
+                }
+            } else {
+                // If input is not an integer, clear scanner buffer
+                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
+                scanner.next(); // Consume the invalid input
             }
         } while (choice != 6);
-
+        
         scanner.close();
+        
     }
 
     private static void displayAddMenu() {
-        System.out.println();
-        System.out.println(" ".repeat(47) + //
-                "▄▀█ █▀▄ █▀▄  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(47) + //
-                "█▀█ █▄▀ █▄▀  █ ▀ █ ██▄ █ ▀█ █▄█");
-        System.out.println();
-        System.out.println(" ".repeat(42) + "+---------------------------------------+");
-        System.out.println(" ".repeat(55) + "1. Add Student");
-        System.out.println(" ".repeat(55) + "2. Add Instructor");
-        System.out.println(" ".repeat(55) + "3. Add Subject");
-        System.out.println(" ".repeat(55) + "4. Return");
-        System.out.println(" ".repeat(42) + "+---------------------------------------+");
-        System.out.print(ANSI_CYAN + " ".repeat(50) + "Enter your choice: " + ANSI_RESET);
-        int choice = scanner.nextInt();
-        System.out.println();
-        border();
-
-        switch (choice) {
-            case 1:
-                addStudent();
-                break;
-            case 2:
-                addInstructor();
-                break;
-            case 3:
-                addSubject();
-                break;
-            case 4:
-                break;
-            default:
-                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
-        }
+        int choice = 0;
+    
+        do {
+            System.out.println();
+            System.out.println(" ".repeat(47) + //
+                    "▄▀█ █▀▄ █▀▄  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(47) + //
+                    "█▀█ █▄▀ █▄▀  █ ▀ █ ██▄ █ ▀█ █▄█");
+            System.out.println();
+            System.out.println(" ".repeat(42) + "+---------------------------------------+");
+            System.out.println(" ".repeat(55) + "1. Add Student");
+            System.out.println(" ".repeat(55) + "2. Add Instructor");
+            System.out.println(" ".repeat(55) + "3. Add Subject");
+            System.out.println(" ".repeat(55) + "4. Return");
+            System.out.println(" ".repeat(42) + "+---------------------------------------+");
+            System.out.print(ANSI_CYAN + " ".repeat(50) + "Enter your choice: " + ANSI_RESET);
+    
+            // Check if the input is an integer
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                System.out.println();
+                border();
+    
+                switch (choice) {
+                    case 1:
+                        addStudent();
+                        break;
+                    case 2:
+                        addInstructor();
+                        break;
+                    case 3:
+                        addSubject();
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
+                        break;
+                }
+            } else {
+                System.out.println(ANSI_RED + "\tInvalid choice! Please enter a number." + ANSI_RESET);
+                scanner.next(); // Consume invalid input
+            }
+        } while (choice != 4);
     }
+    
 
     private static void displayAssignMenu() {
-        System.out.println();
-        System.out.println(" ".repeat(43) + //
-                "▄▀█ █▀ █▀ █ █▀▀ █▄ █  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(43) + //
-                "█▀█ ▄█ ▄█ █ █▄█ █ ▀█  █ ▀ █ ██▄ █ ▀█ █▄█");
-        System.out.println();
-        System.out.println(" ".repeat(42) + "+----------------------------------------+");
-        System.out.println(" ".repeat(46) + "1. Assign Subject to Instructor");
-        System.out.println(" ".repeat(46) + "2. Assign Subject to Student");
-        System.out.println(" ".repeat(46) + "3. Return");
-        System.out.println(" ".repeat(42) + "+----------------------------------------+");
-        System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
-        int choice = scanner.nextInt();
-        System.out.println();
-        border();
-
-        switch (choice) {
-            case 1:
-                if (instructors.isEmpty() || subjects.isEmpty()) {
-                    System.out.println(
-                            ANSI_RED + "\tNo existing instructors or subjects. Please add them first." + ANSI_RESET);
-                    System.out.println();
-                } else {
-                    assignSubjectToInstructor();
-                    System.out.println();
+        int choice = 0;
+    
+        do {
+            System.out.println();
+            System.out.println(" ".repeat(43) + //
+                    "▄▀█ █▀ █▀ █ █▀▀ █▄ █  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(43) + //
+                    "█▀█ ▄█ ▄█ █ █▄█ █ ▀█  █ ▀ █ ██▄ █ ▀█ █▄█");
+            System.out.println();
+            System.out.println(" ".repeat(42) + "+----------------------------------------+");
+            System.out.println(" ".repeat(46) + "1. Assign Subject to Instructor");
+            System.out.println(" ".repeat(46) + "2. Assign Subject to Student");
+            System.out.println(" ".repeat(46) + "3. Return");
+            System.out.println(" ".repeat(42) + "+----------------------------------------+");
+            System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
+    
+            // Check if the input is an integer
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                System.out.println();
+                border();
+    
+                switch (choice) {
+                    case 1:
+                        if (instructors.isEmpty() || subjects.isEmpty()) {
+                            System.out.println(
+                                    ANSI_RED + "\tNo existing instructors or subjects. Please add them first." + ANSI_RESET);
+                            System.out.println();
+                        } else {
+                            assignSubjectToInstructor();
+                            System.out.println();
+                        }
+                        break;
+                    case 2:
+                        if (students.isEmpty() || subjects.isEmpty()) {
+                            System.out.println(
+                                    ANSI_RED + "\tNo existing students or subjects. Please add them first." + ANSI_RESET);
+                            System.out.println();
+                        } else {
+                            addSubjectToStudent();
+                            System.out.println();
+                        }
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
                 }
-                break;
-            case 2:
-                if (students.isEmpty() || subjects.isEmpty()) {
-                    System.out.println(
-                            ANSI_RED + "\tNo existing students or subjects. Please add them first." + ANSI_RESET);
-                    System.out.println();
-                } else {
-                    addSubjectToStudent();
-                    System.out.println();
-                }
-                break;
-            case 3:
-                break;
-            default:
-                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
-        }
+            } else {
+                System.out.println(ANSI_RED + "\tInvalid choice! Please enter a number." + ANSI_RESET);
+                scanner.next(); // Consume invalid input
+            }
+        } while (choice != 3);
     }
+    
 
     private static void displayDisplayMenu() {
-        displayStudentAndInstructorInformation();
-        System.out.println();
-        System.out.println(" ".repeat(40) + //
-                "█▀▄ █ █▀ █▀█ █   ▄▀█ █▄█  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(40) + //
-                "█▄▀ █ ▄█ █▀▀ █▄▄ █▀█  █   █ ▀ █ ██▄ █ ▀█ █▄█");
-        System.out.println();
-        System.out.println(" ".repeat(35) + "+----------------------------------------------------------+");
-        System.out.println(" ".repeat(38) + "1. Display Student Information and Subject Details");
-        System.out.println(" ".repeat(38) + "2. Display Instructor Information and Handled Subjects");
-        System.out.println(" ".repeat(38) + "3. Return");
-        System.out.println(" ".repeat(35) + "+----------------------------------------------------------+");
-        System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
-        int choice = scanner.nextInt();
-        border();
-
-        switch (choice) {
-            case 1:
-                if (students.isEmpty()) {
-                    System.out.println(ANSI_RED + "\tNo existing students. Please add students first." + ANSI_RESET);
-                    System.out.println();
-                } else {
-                    displayStudentInformation();
-                    System.out.println();
+        int choice = 0;
+    
+        do {
+            displayStudentAndInstructorInformation();
+            System.out.println();
+            System.out.println(" ".repeat(40) + //
+                    "█▀▄ █ █▀ █▀█ █   ▄▀█ █▄█  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(40) + //
+                    "█▄▀ █ ▄█ █▀▀ █▄▄ █▀█  █   █ ▀ █ ██▄ █ ▀█ █▄█");
+            System.out.println();
+            System.out.println(" ".repeat(35) + "+----------------------------------------------------------+");
+            System.out.println(" ".repeat(38) + "1. Display Student Information and Subject Details");
+            System.out.println(" ".repeat(38) + "2. Display Instructor Information and Handled Subjects");
+            System.out.println(" ".repeat(38) + "3. Return");
+            System.out.println(" ".repeat(35) + "+----------------------------------------------------------+");
+            System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
+    
+            // Check if the input is an integer
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                System.out.println();
+                border();
+    
+                switch (choice) {
+                    case 1:
+                        if (students.isEmpty()) {
+                            System.out.println(ANSI_RED + "\tNo existing students. Please add students first." + ANSI_RESET);
+                            System.out.println();
+                        } else {
+                            displayStudentInformation();
+                            System.out.println();
+                        }
+                        break;
+                    case 2:
+                        if (instructors.isEmpty()) {
+                            System.out.println(
+                                    ANSI_RED + "\tNo existing instructors. Please add instructors first." + ANSI_RESET);
+                            System.out.println();
+                        } else {
+                            displayInstructorInformation();
+                            System.out.println();
+                        }
+                        break;
+                    case 3:
+                        break;
+                    default:
+                        System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
                 }
-                break;
-            case 2:
-                if (instructors.isEmpty()) {
-                    System.out.println(
-                            ANSI_RED + "\tNo existing instructors. Please add instructors first." + ANSI_RESET);
-                    System.out.println();
-                } else {
-                    displayInstructorInformation();
-                    System.out.println();
-                }
-                break;
-            case 3:
-                break;
-            default:
-                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
-        }
+            } else {
+                System.out.println(ANSI_RED + "\tInvalid choice! Please enter a number." + ANSI_RESET);
+                scanner.next(); // Consume invalid input
+            }
+        } while (choice != 3);
     }
+    
 
     private static void displayStudentAndInstructorInformation() {
         System.out.println();
@@ -536,38 +584,50 @@ public class UniversityManagementSystem {
     }
 
     private static void displayDeleteMenu() {
-        System.out.println();
-        System.out.println(" ".repeat(41) + //
-                "█▀▄ █▀▀ █   █▀▀ ▀█▀ █▀▀   █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(41) + //
-                "█▄▀ ██▄ █▄▄ ██▄  █  ██▄   █ ▀ █ ██▄ █ ▀█ █▄█");
-        System.out.println();
-        System.out.println(" ".repeat(38) + "+------------------------------------------------+");
-        System.out.println(" ".repeat(55) + "1. Delete Student");
-        System.out.println(" ".repeat(55) + "2. Delete Instructor");
-        System.out.println(" ".repeat(55) + "3. Delete Subject");
-        System.out.println(" ".repeat(55) + "4. Return");
-        System.out.println(" ".repeat(38) + "+------------------------------------------------+");
-        System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
-        int choice = scanner.nextInt();
-        System.out.println();
-        border();
-
-        switch (choice) {
-            case 1:
-                deleteStudent();
-                break;
-            case 2:
-                deleteInstructor();
-                break;
-            case 3:
-                deleteSubject();
-                break;
-            case 4:
-                break;
-            default:
-                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
-        }
+        int choice = 0;
+    
+        do {
+            System.out.println();
+            System.out.println(" ".repeat(41) + //
+                    "█▀▄ █▀▀ █   █▀▀ ▀█▀ █▀▀   █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(41) + //
+                    "█▄▀ ██▄ █▄▄ ██▄  █  ██▄   █ ▀ █ ██▄ █ ▀█ █▄█");
+            System.out.println();
+            System.out.println(" ".repeat(38) + "+------------------------------------------------+");
+            System.out.println(" ".repeat(55) + "1. Delete Student");
+            System.out.println(" ".repeat(55) + "2. Delete Instructor");
+            System.out.println(" ".repeat(55) + "3. Delete Subject");
+            System.out.println(" ".repeat(55) + "4. Return");
+            System.out.println(" ".repeat(38) + "+------------------------------------------------+");
+            System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
+    
+            // Check if the input is an integer
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                System.out.println();
+                border();
+    
+                switch (choice) {
+                    case 1:
+                        deleteStudent();
+                        break;
+                    case 2:
+                        deleteInstructor();
+                        break;
+                    case 3:
+                        deleteSubject();
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
+                }
+            } else {
+                System.out.println(ANSI_RED + "\tInvalid choice! Please enter a number." + ANSI_RESET);
+                scanner.next(); // Consume invalid input
+            }
+        } while (choice != 4);
     }
+    
 
     private static void deleteStudent() {
         System.out.print("\tEnter student ID to delete: ");
@@ -622,38 +682,50 @@ public class UniversityManagementSystem {
     }
 
     private static void displayEditMenu() {
-        System.out.println();
-        System.out.println(" ".repeat(46) + //
-                "█▀▀ █▀▄ █ ▀█▀   █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(46) + //
-                "██▄ █▄▀ █  █    █ ▀ █ ██▄ █ ▀█ █▄█");
-        System.out.println();
-        System.out.println(" ".repeat(42) + "+----------------------------------------+");
-        System.out.println(" ".repeat(55) + "1. Edit Student");
-        System.out.println(" ".repeat(55) + "2. Edit Instructor");
-        System.out.println(" ".repeat(55) + "3. Edit Subject");
-        System.out.println(" ".repeat(55) + "4. Return");
-        System.out.println(" ".repeat(42) + "+----------------------------------------+");
-        System.out.print(ANSI_CYAN + " ".repeat(50) + "Enter your choice: " + ANSI_RESET);
-        int choice = scanner.nextInt();
-        System.out.println();
-        border();
-
-        switch (choice) {
-            case 1:
-                editStudent();
-                break;
-            case 2:
-                editInstructor();
-                break;
-            case 3:
-                editSubject();
-                break;
-            case 4:
-                break;
-            default:
-                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
-        }
+        int choice = 0;
+    
+        do {
+            System.out.println();
+            System.out.println(" ".repeat(46) + //
+                    "█▀▀ █▀▄ █ ▀█▀   █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(46) + //
+                    "██▄ █▄▀ █  █    █ ▀ █ ██▄ █ ▀█ █▄█");
+            System.out.println();
+            System.out.println(" ".repeat(42) + "+----------------------------------------+");
+            System.out.println(" ".repeat(55) + "1. Edit Student");
+            System.out.println(" ".repeat(55) + "2. Edit Instructor");
+            System.out.println(" ".repeat(55) + "3. Edit Subject");
+            System.out.println(" ".repeat(55) + "4. Return");
+            System.out.println(" ".repeat(42) + "+----------------------------------------+");
+            System.out.print(ANSI_CYAN + " ".repeat(50) + "Enter your choice: " + ANSI_RESET);
+    
+            // Check if the input is an integer
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                System.out.println();
+                border();
+    
+                switch (choice) {
+                    case 1:
+                        editStudent();
+                        break;
+                    case 2:
+                        editInstructor();
+                        break;
+                    case 3:
+                        editSubject();
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
+                }
+            } else {
+                System.out.println(ANSI_RED + "\tInvalid choice! Please enter a number." + ANSI_RESET);
+                scanner.next(); // Consume invalid input
+            }
+        } while (choice != 4);
     }
+    
 
     private static void editStudent() {
         System.out.print("\tEnter student ID to edit: ");
