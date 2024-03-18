@@ -676,23 +676,35 @@ public class UniversityManagementSystem {
             System.out.print("\tEnter field to edit: ");
             int choice = scanner.nextInt();
             switch (choice) {
-
                 case 1:
-                    System.out.println();
-                    System.out.println("\tEdit student information.");
-                    System.out.println(ANSI_RED
-                            + "\n\tPlease fill all the information needed. Fields with '*' are required." + ANSI_RESET);
-                    System.out.println("\tPress enter to continue...");
-                    scanner.nextLine();
-                    scanner.nextLine();
-
-                    System.out.print("\tEnter new first name: ");
-                    String newFirstName = scanner.next();
-                    System.out.print("\tEnter new last name: ");
-                    String newLastName = scanner.next();
-                    System.out.print("\tEnter new middle name: ");
-                    String newMiddleName = scanner.next();
-
+                    System.out.println("Edit student information.");
+                    System.out.println("\nPlease fill all the information needed. Fields with '*' are required.");
+                    System.out.println("Press enter to continue...");
+                    scanner.nextLine(); // Consume newline
+                    scanner.nextLine(); // Wait for enter
+                    
+                    String newFirstName = "";
+                    String newLastName = "";
+                
+                    // Loop until valid input is provided for required fields
+                    while (newFirstName.isEmpty() || newLastName.isEmpty()) {
+                        System.out.print("* Enter new first name: ");
+                        newFirstName = scanner.nextLine().trim();
+                        if (newFirstName.isEmpty()) {
+                            System.out.println("First name cannot be empty. Please try again.");
+                            continue;
+                        }
+                
+                        System.out.print("* Enter new last name: ");
+                        newLastName = scanner.nextLine().trim();
+                        if (newLastName.isEmpty()) {
+                            System.out.println("Last name cannot be empty. Please try again.");
+                        }
+                    }
+                
+                    System.out.print("Enter new middle name: ");
+                    String newMiddleName = scanner.nextLine().trim();
+                
                     // Update the student's name
                     String fullName = newFirstName + " " + newMiddleName + " " + newLastName;
                     student.setName(fullName);
@@ -754,24 +766,38 @@ public class UniversityManagementSystem {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
-                    System.out.println("\tEdit instructor information.");
-                    System.out.println(ANSI_RED
-                            + "\n\tPlease fill all the information needed. Fields with '*' are required." + ANSI_RESET);
-                    System.out.println("\tPress enter to continue...");
-                    scanner.nextLine();
-                    scanner.nextLine();
+                System.out.println("Edit instructor information.");
+                System.out.println("\nPlease fill all the information needed. Fields with '*' are required.");
+                System.out.println("Press enter to continue...");
+                scanner.nextLine(); // Consume newline
+                scanner.nextLine(); // Wait for enter
 
-                    System.out.print("\t* New First name: ");
-                    String newFirstName = scanner.next();
-                    System.out.print("\t* New Last name: ");
-                    String newLastName = scanner.next();
-                    System.out.print("\t* New Middle name: ");
-                    String newMiddleName = scanner.next();
+                String newFirstName = "";
+                String newLastName = "";
 
-                    String fullName = newFirstName + " " + newMiddleName + " " + newLastName;
+                // Loop until valid input is provided for required fields
+                while (newFirstName.isEmpty() || newLastName.isEmpty()) {
+                    System.out.print("* New First name: ");
+                    newFirstName = scanner.nextLine().trim();
+                    if (newFirstName.isEmpty()) {
+                        System.out.println("First name cannot be empty. Please try again.");
+                        continue;
+                    }
 
-                    instructor.setName(fullName);
-                    break;
+                    System.out.print("* New Last name: ");
+                    newLastName = scanner.nextLine().trim();
+                    if (newLastName.isEmpty()) {
+                        System.out.println("Last name cannot be empty. Please try again.");
+                    }
+                }
+
+                System.out.print("New Middle name: ");
+                String newMiddleName = scanner.nextLine().trim();
+
+                // Update the instructor's name
+                String fullName = newFirstName + " " + newMiddleName + " " + newLastName;
+                instructor.setName(fullName);
+                break;
                 case 2:
                     System.out.print("\tEnter new age: ");
                     int newAge = scanner.nextInt();
