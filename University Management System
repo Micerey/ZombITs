@@ -124,6 +124,12 @@ class Student extends Member {
 }
 
 public class UniversityManagementSystem {
+    static String ANSI_RESET = "\u001B[0m";
+    static String ANSI_RED = "\u001B[31m";
+    static String ANSI_CYAN = "\u001B[36m";
+    static String ANSI_BLUE = "\u001B[34m";
+    static String ANSI_GREEN = "\u001B[32m";
+
     private static ArrayList<Instructor> instructors = new ArrayList<>();
     private static ArrayList<Student> students = new ArrayList<>();
     private static ArrayList<Subject> subjects = new ArrayList<>();
@@ -133,17 +139,25 @@ public class UniversityManagementSystem {
     public static void main(String[] args) {
         int choice;
 
+        System.out.println(ANSI_RED + " ".repeat(10) + //
+                "█ █ █▄ █ █ █ █ █▀▀ █▀█ █▀ █ ▀█▀ █▄█   █▀█ █▀█ █▀█ █▀▀ █ █   █ █▄ █ █▀▀  █▀▄▀█ ▄▀█ █▄ █ ▄▀█ █▀▀ █▀▀ █▀▄▀█ █▀▀ █▄ █ ▀█▀\r\n"+ " ".repeat(10) + //
+                "█▄█ █ ▀█ █ ▀▄▀ ██▄ █▀▄ ▄█ █  █   █    █▀▀ █▀▄ █▄█ █▀  █ █▄▄ █ █ ▀█ █▄█  █ ▀ █ █▀█ █ ▀█ █▀█ █▄█ ██▄ █ ▀ █ ██▄ █ ▀█  █ \r\n"  + //
+                "\r\n" + //
+                " ".repeat(50) + "█▀ █▄█ █▀ ▀█▀ █▀▀ █▀▄▀█\r\n" + //
+                " ".repeat(50) + "▄█  █  ▄█  █  ██▄ █ ▀ █" + ANSI_RESET);
+        border();
+
         do {
-            System.out.println("University Profiling Management System");
-            System.out.println("1. Add");
-            System.out.println("2. Assign");
-            System.out.println("3. Display");
-            System.out.println("4. Delete");
-            System.out.println("5. Edit");
-            System.out.println("6. Exit");
             System.out.println();
-            System.out.print("Enter your choice: ");
+            System.out.println(" ".repeat(42) + "+---------------------------------------+");
+            System.out.println(" ".repeat(50) + "1. Add \t4. Delete");
+            System.out.println(" ".repeat(50) + "2. Assign \t5. Edit");
+            System.out.println(" ".repeat(50) + "3. Display \t6. Exit");
+            System.out.println(" ".repeat(42) + "+---------------------------------------+");
+            System.out.print(ANSI_BLUE + " ".repeat(50) + "Enter your choice: " + ANSI_RESET);
             choice = scanner.nextInt();
+            System.out.println();
+            border();
 
             switch (choice) {
                 case 1:
@@ -162,10 +176,10 @@ public class UniversityManagementSystem {
                     displayEditMenu();
                     break;
                 case 6:
-                    System.out.println("Exiting...");
+                    System.out.println("\tExiting...");
                     break;
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
             }
         } while (choice != 6);
 
@@ -173,14 +187,21 @@ public class UniversityManagementSystem {
     }
 
     private static void displayAddMenu() {
-        System.out.println("Add Menu");
-        System.out.println("1. Add Student");
-        System.out.println("2. Add Instructor");
-        System.out.println("3. Add Subject");
-        System.out.println("4. Return");
         System.out.println();
-        System.out.print("Enter your choice: ");
+        System.out.println(" ".repeat(47) + //
+                "▄▀█ █▀▄ █▀▄  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(47) + //
+                "█▀█ █▄▀ █▄▀  █ ▀ █ ██▄ █ ▀█ █▄█");
+        System.out.println();
+        System.out.println(" ".repeat(42) + "+---------------------------------------+");
+        System.out.println(" ".repeat(55) + "1. Add Student");
+        System.out.println(" ".repeat(55) + "2. Add Instructor");
+        System.out.println(" ".repeat(55) + "3. Add Subject");
+        System.out.println(" ".repeat(55) + "4. Return");
+        System.out.println(" ".repeat(42) + "+---------------------------------------+");
+        System.out.print(ANSI_CYAN + " ".repeat(50) + "Enter your choice: " + ANSI_RESET);
         int choice = scanner.nextInt();
+        System.out.println();
+        border();
 
         switch (choice) {
             case 1:
@@ -195,23 +216,30 @@ public class UniversityManagementSystem {
             case 4:
                 break;
             default:
-                System.out.println("Invalid choice!");
+                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
         }
     }
 
     private static void displayAssignMenu() {
-        System.out.println("Assign Menu");
-        System.out.println("1. Assign Subject to Instructor");
-        System.out.println("2. Assign Subject to Student");
-        System.out.println("3. Return");
         System.out.println();
-        System.out.print("Enter your choice: ");
+        System.out.println(" ".repeat(43) + //
+                "▄▀█ █▀ █▀ █ █▀▀ █▄ █  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(43) + //
+                "█▀█ ▄█ ▄█ █ █▄█ █ ▀█  █ ▀ █ ██▄ █ ▀█ █▄█");
+        System.out.println();
+        System.out.println(" ".repeat(42) + "+----------------------------------------+");
+        System.out.println(" ".repeat(46) + "1. Assign Subject to Instructor");
+        System.out.println(" ".repeat(46) + "2. Assign Subject to Student");
+        System.out.println(" ".repeat(46) + "3. Return");
+        System.out.println(" ".repeat(42) + "+----------------------------------------+");
+        System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
         int choice = scanner.nextInt();
+        System.out.println();
+        border();
 
         switch (choice) {
             case 1:
                 if (instructors.isEmpty() || subjects.isEmpty()) {
-                    System.out.println("No existing instructors or subjects. Please add them first.");
+                    System.out.println(ANSI_RED + "\tNo existing instructors or subjects. Please add them first." + ANSI_RESET);
                     System.out.println();
                 } else {
                     assignSubjectToInstructor();
@@ -220,7 +248,7 @@ public class UniversityManagementSystem {
                 break;
             case 2:
                 if (students.isEmpty() || subjects.isEmpty()) {
-                    System.out.println("No existing students or subjects. Please add them first.");
+                    System.out.println(ANSI_RED + "\tNo existing students or subjects. Please add them first." + ANSI_RESET);
                     System.out.println();
                 } else {
                     addSubjectToStudent();
@@ -230,24 +258,30 @@ public class UniversityManagementSystem {
             case 3:
                 break;
             default:
-                System.out.println("Invalid choice!");
+                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
         }
     }
 
     private static void displayDisplayMenu() {
         displayStudentAndInstructorInformation();
-        System.out.println("Display Menu");
-        System.out.println("1. Display Student Information and Subject Details");
-        System.out.println("2. Display Instructor Information and Handled Subjects");
-        System.out.println("3. Return");
+       System.out.println();
+        System.out.println(" ".repeat(40) + //
+                "█▀▄ █ █▀ █▀█ █   ▄▀█ █▄█  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(40) + //
+                "█▄▀ █ ▄█ █▀▀ █▄▄ █▀█  █   █ ▀ █ ██▄ █ ▀█ █▄█");
         System.out.println();
-        System.out.print("Enter your choice: ");
+        System.out.println(" ".repeat(35) + "+----------------------------------------------------------+");
+        System.out.println(" ".repeat(38) + "1. Display Student Information and Subject Details");
+        System.out.println(" ".repeat(38) + "2. Display Instructor Information and Handled Subjects");
+        System.out.println(" ".repeat(38) + "3. Return");
+        System.out.println(" ".repeat(35) + "+----------------------------------------------------------+");
+        System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
         int choice = scanner.nextInt();
+        border();
     
         switch (choice) {
             case 1:
                 if (students.isEmpty()) {
-                    System.out.println("No existing students. Please add students first.");
+                    System.out.println(ANSI_RED + "\tNo existing students. Please add students first." + ANSI_RESET);
                     System.out.println();
                 } else {
                     displayStudentInformation();
@@ -256,7 +290,7 @@ public class UniversityManagementSystem {
                 break;
             case 2:
                 if (instructors.isEmpty()) {
-                    System.out.println("No existing instructors. Please add instructors first.");
+                    System.out.println(ANSI_RED + "\tNo existing instructors. Please add instructors first." + ANSI_RESET);
                     System.out.println();
                 } else {
                     displayInstructorInformation();
@@ -266,7 +300,7 @@ public class UniversityManagementSystem {
             case 3:
                 break;
             default:
-                System.out.println("Invalid choice!");
+                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
         }
     }
     
@@ -493,14 +527,21 @@ public class UniversityManagementSystem {
     }
 
     private static void displayDeleteMenu() {
-        System.out.println("Delete Menu");
-        System.out.println("1. Delete Student");
-        System.out.println("2. Delete Instructor");
-        System.out.println("3. Delete Subject");
-        System.out.println("4. Return");
         System.out.println();
-        System.out.print("Enter your choice: ");
+        System.out.println(" ".repeat(41) + //
+                "█▀▄ █▀▀ █   █▀▀ ▀█▀ █▀▀   █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(41) + //
+                "█▄▀ ██▄ █▄▄ ██▄  █  ██▄   █ ▀ █ ██▄ █ ▀█ █▄█");
+        System.out.println();
+        System.out.println(" ".repeat(38) + "+------------------------------------------------+");
+        System.out.println(" ".repeat(55) + "1. Delete Student");
+        System.out.println(" ".repeat(55) + "2. Delete Instructor");
+        System.out.println(" ".repeat(55) + "3. Delete Subject");
+        System.out.println(" ".repeat(55) + "4. Return");
+        System.out.println(" ".repeat(38) + "+------------------------------------------------+");
+        System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
         int choice = scanner.nextInt();
+        System.out.println();
+        border();
 
         switch (choice) {
             case 1:
@@ -572,14 +613,22 @@ public class UniversityManagementSystem {
     }
 
     private static void displayEditMenu() {
-        System.out.println("Edit Menu");
-        System.out.println("1. Edit Student");
-        System.out.println("2. Edit Instructor");
-        System.out.println("3. Edit Subject");
-        System.out.println("4. Return");
-        System.out.print("Enter your choice: ");
+        System.out.println();
+        System.out.println(" ".repeat(46) + //
+                "█▀▀ █▀▄ █ ▀█▀   █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(46) + //
+                "██▄ █▄▀ █  █    █ ▀ █ ██▄ █ ▀█ █▄█");
+        System.out.println();
+        System.out.println(" ".repeat(42) + "+----------------------------------------+");
+        System.out.println(" ".repeat(55) + "1. Edit Student");
+        System.out.println(" ".repeat(55) + "2. Edit Instructor");
+        System.out.println(" ".repeat(55) + "3. Edit Subject");
+        System.out.println(" ".repeat(55) + "4. Return");
+        System.out.println(" ".repeat(42) + "+----------------------------------------+");
+        System.out.print(ANSI_CYAN + " ".repeat(50) + "Enter your choice: " + ANSI_RESET);
         int choice = scanner.nextInt();
-        switch (choice) {
+        System.out.println();
+        border();
+
             case 1:
                 editStudent();
                 break;
@@ -801,5 +850,8 @@ public class UniversityManagementSystem {
             }
         }
         return null;
+    }
+    public static void border() {
+        System.out.println("+" + "-".repeat(138) + "+");
     }
 }
