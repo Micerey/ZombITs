@@ -17,16 +17,12 @@ class Subject {
         return name;
     }
 
-    public String getdescription() {
+    public String getDescription() {
         return description;
     }
 
     public String getCode() {
         return code;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setName(String name) {
@@ -39,7 +35,7 @@ class Person {
     protected String id;
 
     public Person(String firstName, String middleName, String lastName, String id) {
-        this.name = firstName + middleName + lastName;
+        this.name = firstName + " " + middleName + " " + lastName;
         this.id = id;
     }
 
@@ -58,7 +54,6 @@ class Person {
 
 class Member extends Person {
     protected ArrayList<Subject> subjects;
-    protected ArrayList<Subject> description;
 
     public Member(String firstName, String middleName, String lastName, String id) {
         super(firstName, middleName, lastName, id);
@@ -138,7 +133,6 @@ public class UniversityManagementSystem {
     private static ArrayList<Instructor> instructors = new ArrayList<>();
     private static ArrayList<Student> students = new ArrayList<>();
     private static ArrayList<Subject> subjects = new ArrayList<>();
-    // private static ArrayList<Subject> description = new ArrayList<>();
     private static Random rand = new Random();
     private static Scanner scanner = new Scanner(System.in);
 
@@ -154,6 +148,7 @@ public class UniversityManagementSystem {
                 " ".repeat(50) + "█▀ █▄█ █▀ ▀█▀ █▀▀ █▀▄▀█\r\n" + //
                 " ".repeat(50) + "▄█  █  ▄█  █  ██▄ █ ▀ █" + ANSI_RESET);
         border();
+
         do {
             System.out.println();
             System.out.println(" ".repeat(42) + "+---------------------------------------+");
@@ -189,7 +184,6 @@ public class UniversityManagementSystem {
                     System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
             }
         } while (choice != 6);
-        border();
 
         scanner.close();
     }
@@ -226,7 +220,6 @@ public class UniversityManagementSystem {
             default:
                 System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
         }
-        border();
     }
 
     private static void displayAssignMenu() {
@@ -242,6 +235,7 @@ public class UniversityManagementSystem {
         System.out.println(" ".repeat(42) + "+----------------------------------------+");
         System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
         int choice = scanner.nextInt();
+        System.out.println();
         border();
 
         switch (choice) {
@@ -270,10 +264,10 @@ public class UniversityManagementSystem {
             default:
                 System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
         }
-        border();
     }
 
     private static void displayDisplayMenu() {
+        displayStudentAndInstructorInformation();
         System.out.println();
         System.out.println(" ".repeat(40) + //
                 "█▀▄ █ █▀ █▀█ █   ▄▀█ █▄█  █▀▄▀█ █▀▀ █▄ █ █ █\r\n" + " ".repeat(40) + //
@@ -300,9 +294,8 @@ public class UniversityManagementSystem {
                 break;
             case 2:
                 if (instructors.isEmpty()) {
-                    System.out
-                            .println(
-                                    ANSI_RED + "\tNo existing instructors. Please add instructors first." + ANSI_RESET);
+                    System.out.println(
+                            ANSI_RED + "\tNo existing instructors. Please add instructors first." + ANSI_RESET);
                     System.out.println();
                 } else {
                     displayInstructorInformation();
@@ -316,6 +309,37 @@ public class UniversityManagementSystem {
         }
     }
 
+    private static void displayStudentAndInstructorInformation() {
+        System.out.println();
+        // Check if there are students
+        if (students.isEmpty()) {
+            System.out.println(ANSI_RED + "\tNo students found." + ANSI_RESET);
+        } else {
+            // Print header
+            System.out.println(ANSI_GREEN + "\tStudents:" + ANSI_RESET);
+
+            // Print student information
+            for (Student student : students) {
+                System.out.println("\t\tName: " + student.getName() + ", Code: " + student.getId());
+            }
+        }
+
+        System.out.println();
+        // Check if there are instructors
+        if (instructors.isEmpty()) {
+            System.out.println(ANSI_RED + "\tNo instructors found." + ANSI_RESET);
+        } else {
+            // Print header
+            System.out.println(ANSI_GREEN + "\tInstructors:" + ANSI_RESET);
+
+            // Print instructor information
+            for (Instructor instructor : instructors) {
+                System.out.println("\t\tName: " + instructor.getName() + ", Code: " + instructor.getId());
+            }
+        }
+        System.out.println();
+    }
+
     private static void addInstructor() {
         System.out.println(
                 ANSI_RED + "\tPlease fill all the information needed. Fields with '*' are required." + ANSI_RESET);
@@ -323,57 +347,40 @@ public class UniversityManagementSystem {
         scanner.nextLine();
         scanner.nextLine();
 
-        System.out.println("\tAdd student information.");
-        String firstName = "";
-        while (firstName.isEmpty()) {
-            System.out.print("\t" + "*\tFirst name: ");
-            firstName = scanner.nextLine().trim();
-            if (firstName.isEmpty()) {
-                System.out.println(ANSI_RED + "\tError: First name is required." + ANSI_RESET);
-            }
+        System.out.print("\t* First name: ");
+        String firstName = scanner.nextLine();
+        if (firstName.trim().isEmpty()) {
+            System.out.println(ANSI_RED + "\tFirst name cannot be empty. Please try again." + ANSI_RESET);
+            addInstructor();
+            return;
         }
-        String lastName = "";
-        while (lastName.isEmpty()) {
-            System.out.print("\t" + "*\tLast name: ");
-            lastName = scanner.nextLine().trim();
-            if (lastName.isEmpty()) {
-                System.out.println(ANSI_RED + "\tError: Last name is required." + ANSI_RESET);
-            }
+
+        System.out.print("\t* Last name: ");
+        String lastName = scanner.nextLine();
+        if (lastName.trim().isEmpty()) {
+            System.out.println(ANSI_RED + "\tLast name cannot be empty. Please try again." + ANSI_RESET);
+            addInstructor();
+            return;
         }
-        System.out.print("\t" + "\tMiddle name: ");
+        System.out.print("\t  Middle name: ");
         String middleName = scanner.nextLine().trim(); // Read the whole line and trim extra spaces
         if (middleName.isEmpty()) {
             middleName = " "; // If middle name is empty, make it null
         }
-        String address = "";
-        while (address.isEmpty()) {
-            System.out.print("\t" + "*\tAddress: "); // Consume newline
-            address = scanner.nextLine().trim();
-            if (address.isEmpty()) {
-                System.out.println(ANSI_RED + "\tError: Address is required." + ANSI_RESET);
-            }
-        }
+        System.out.print("\n" + "\t* Address: "); // Consume newline
+        String address = scanner.nextLine();
+        System.out.print("\t* Age: ");
+        int age = scanner.nextInt();
 
-        int age = 0;
-        while (age <= 0) {
-            System.out.print("\t" + "*\tAge: ");
-            try {
-                age = Integer.parseInt(scanner.nextLine().trim());
-                if (age < 24) {
-                    System.out.println(ANSI_RED + "\tError: Instructor must be at least 24 years old." + ANSI_RESET);
-                    age = 0; // Reset age to trigger re-entry
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println(ANSI_RED + "\tError: Age must be a valid number." + ANSI_RESET);
-            }
+        if (age < 24) {
+            System.out.println(ANSI_RED + "\tError: Instructor must be at least 24 years old." + ANSI_RESET);
+            return;
         }
 
         String id = generateInstructorId();
         Instructor instructor = new Instructor(firstName, middleName, lastName, id, address, age);
         instructors.add(instructor);
-        System.out
-                .println(ANSI_GREEN + "\n" + "\n" + "\t" + "Instructor added successfully. \n\tID: " + id + ANSI_RESET);
+        System.out.println(ANSI_GREEN + "\tInstructor added successfully. \n\tID: " + id + ANSI_RESET);
         System.out.println();
     }
 
@@ -388,57 +395,39 @@ public class UniversityManagementSystem {
         scanner.nextLine();
         scanner.nextLine();
 
-        System.out.println("\tAdd student information.");
-        String firstName = "";
-        while (firstName.isEmpty()) {
-            System.out.print("\t" + "*\tFirst name: ");
-            firstName = scanner.nextLine().trim();
-            if (firstName.isEmpty()) {
-                System.out.println(ANSI_RED + "\tError: First name is required." + ANSI_RESET);
-            }
+        System.out.println(ANSI_GREEN + "\tAdd student information." + ANSI_RESET);
+        System.out.print("\t* First name: ");
+        String firstName = scanner.nextLine();
+        if (firstName.trim().isEmpty()) {
+            System.out.println(ANSI_RED + "First name cannot be empty. Please try again." + ANSI_RESET);
+            addStudent();
+            return;
         }
-        String lastName = "";
-        while (lastName.isEmpty()) {
-            System.out.print("\t" + "*\tLast name: ");
-            lastName = scanner.nextLine().trim();
-            if (lastName.isEmpty()) {
-                System.out.println(ANSI_RED + "\tError: Last name is required." + ANSI_RESET);
-            }
+        System.out.print("\t* Last name: ");
+        String lastName = scanner.nextLine();
+        if (lastName.trim().isEmpty()) {
+            System.out.println(ANSI_RED + "\tLast name cannot be empty. Please try again." + ANSI_RESET);
+            addStudent();
+            return;
         }
-        System.out.print("\t" + "\tMiddle name: ");
+        System.out.print("\t  Middle name: ");
         String middleName = scanner.nextLine().trim(); // Read the whole line and trim extra spaces
         if (middleName.isEmpty()) {
             middleName = " "; // If middle name is empty, make it null
         }
-        String address = "";
-        while (address.isEmpty()) {
-            System.out.print("\t" + "*\tAddress: "); // Consume newline
-            address = scanner.nextLine().trim();
-            if (address.isEmpty()) {
-                System.out.println(ANSI_RED + "\tError: Address is required." + ANSI_RESET);
-            }
-        }
-        int age = 0;
-        while (age <= 0) {
-            System.out.print("\t" + "*\tAge: ");
-            try {
-                age = Integer.parseInt(scanner.nextLine().trim());
-                if (age < 17) {
-                    System.out.println(ANSI_RED + "\tError: Student must be at least 17 years old." + ANSI_RESET);
-                    age = 0; // Reset age to trigger re-entry
-                    return;
-                }
-            } catch (NumberFormatException e) {
-                System.out.println(ANSI_RED + "\tError: Age must be a valid number." + ANSI_RESET);
-            }
+        System.out.print("\n" + "\t* Address: "); // Consume newline
+        String address = scanner.nextLine();
+        System.out.print("\t* Age: ");
+        int age = scanner.nextInt();
+        if (age < 17) {
+            System.out.println(ANSI_RED + "\tError: Student must be at least 17 years old." + ANSI_RESET);
+            return;
         }
 
         String id = generateStudentId();
         Student student = new Student(firstName, middleName, lastName, id, address, age);
         students.add(student);
-        System.out.println(ANSI_GREEN + "\n" + "\n" + "\t" + "Student added successfully. \n\tID: " + id + ANSI_RESET);
-        System.out.println();
-
+        System.out.println(ANSI_GREEN + "\tStudent added successfully. \n\tID: " + id + ANSI_RESET);
     }
 
     private static String generateStudentId() {
@@ -450,7 +439,6 @@ public class UniversityManagementSystem {
         scanner.nextLine();
         String name = scanner.nextLine();
         System.out.print("\tEnter subject description: ");
-        scanner.nextLine();
         String description = scanner.nextLine();
         String code = generateSubjectCode();
         Subject subject = new Subject(name, description, code);
@@ -479,7 +467,7 @@ public class UniversityManagementSystem {
                 System.out.println(ANSI_GREEN + "\tSubject assigned to instructor successfully." + ANSI_RESET);
                 System.out.println();
             } else {
-                System.out.println(ANSI_RED + "\tSubject not found." + ANSI_RESET);
+                System.out.println(ANSI_RED + "Subject not found." + ANSI_RESET);
             }
         } else {
             System.out.println(ANSI_RED + "Instructor not found." + ANSI_RESET);
@@ -497,13 +485,13 @@ public class UniversityManagementSystem {
             Subject subject = findSubjectByCode(code);
             if (subject != null) {
                 student.addSubject(subject);
-                System.out.println(ANSI_GREEN + "Subject added to student successfully." + ANSI_RESET);
+                System.out.println(ANSI_GREEN + "\tSubject added to student successfully." + ANSI_RESET);
                 System.out.println();
             } else {
-                System.out.println(ANSI_RED + "Subject not found." + ANSI_RESET);
+                System.out.println(ANSI_RED + "\tSubject not found." + ANSI_RESET);
             }
         } else {
-            System.out.println(ANSI_RED + "Student not found." + ANSI_RESET);
+            System.out.println(ANSI_RED + "\tStudent not found." + ANSI_RESET);
             System.out.println();
         }
     }
@@ -522,7 +510,7 @@ public class UniversityManagementSystem {
                 System.out.println("- " + subject.getName() + " (" + subject.getCode() + ")");
             }
         } else {
-            System.out.println(ANSI_RED + "Student not found." + ANSI_RESET);
+            System.out.println(ANSI_RED + "\tStudent not found." + ANSI_RESET);
             System.out.println();
         }
     }
@@ -542,7 +530,7 @@ public class UniversityManagementSystem {
                 System.out.println();
             }
         } else {
-            System.out.println(ANSI_RED + "Instructor not found." + ANSI_RESET);
+            System.out.println(ANSI_RED + "\tInstructor not found." + ANSI_RESET);
             System.out.println();
         }
     }
@@ -561,6 +549,7 @@ public class UniversityManagementSystem {
         System.out.println(" ".repeat(38) + "+------------------------------------------------+");
         System.out.print(" ".repeat(50) + ANSI_CYAN + "Enter your choice: " + ANSI_RESET);
         int choice = scanner.nextInt();
+        System.out.println();
         border();
 
         switch (choice) {
@@ -589,7 +578,7 @@ public class UniversityManagementSystem {
             System.out.println(ANSI_GREEN + "\tStudent data deleted successfully." + ANSI_RESET);
             System.out.println();
         } else {
-            System.out.println(ANSI_RED + "Student not found." + ANSI_RESET);
+            System.out.println(ANSI_RED + "\tStudent not found." + ANSI_RESET);
         }
         displayDeleteMenu();
         System.out.println();
@@ -604,7 +593,7 @@ public class UniversityManagementSystem {
             System.out.println(ANSI_GREEN + "\tInstructor data deleted successfully." + ANSI_RESET);
             System.out.println();
         } else {
-            System.out.println(ANSI_RED + "Instructor not found." + ANSI_RESET);
+            System.out.println(ANSI_RED + "\tInstructor not found." + ANSI_RESET);
         }
         displayDeleteMenu();
         System.out.println();
@@ -623,10 +612,10 @@ public class UniversityManagementSystem {
                 instructor.getSubjects().remove(subject);
             }
             subjects.remove(subject);
-            System.out.println(ANSI_GREEN + "Subject data deleted successfully." + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "\tSubject data deleted successfully." + ANSI_RESET);
             System.out.println();
         } else {
-            System.out.println(ANSI_RED + "Subject not found." + ANSI_RESET);
+            System.out.println(ANSI_RED + "\tSubject not found." + ANSI_RESET);
         }
         displayDeleteMenu();
         System.out.println();
@@ -662,7 +651,7 @@ public class UniversityManagementSystem {
             case 4:
                 break;
             default:
-                System.out.println(ANSI_RED + "Invalid choice!" + ANSI_RESET);
+                System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
         }
     }
 
@@ -672,32 +661,36 @@ public class UniversityManagementSystem {
         Student student = findStudentById(id);
         if (student != null) {
             // Display student details
-            System.out.println(ANSI_BLUE + "\tCurrent Details:" + ANSI_RESET);
-            System.out.println("\t\t: " + student.getName());
+            System.out.println(ANSI_CYAN + "\tCurrent Details:" + ANSI_RESET);
+            System.out.println("\t\tName: " + student.getName());
             System.out.println("\t\tAge: " + student.getAge());
             System.out.println("\t\tAddress: " + student.getAddress());
-            System.out.println();
 
             // Prompt for editing
+            System.out.println();
+            System.out.println("+---------------------------+");
             System.out.println("\t1. Edit Name");
             System.out.println("\t2. Edit Age");
             System.out.println("\t3. Edit Address");
             System.out.println();
-            System.out.print(ANSI_CYAN + "\tEnter field to edit: " + ANSI_RESET);
+            System.out.print("\tEnter field to edit: ");
             int choice = scanner.nextInt();
             switch (choice) {
+
                 case 1:
-                    System.out.println("Edit student information.");
-                    System.out.println("\nPlease fill all the information needed. Fields with '*' are required.");
-                    System.out.println("Press enter to continue...");
+                    System.out.println();
+                    System.out.println("\tEdit student information.");
+                    System.out.println(ANSI_RED
+                            + "\n\tPlease fill all the information needed. Fields with '*' are required." + ANSI_RESET);
+                    System.out.println("\tPress enter to continue...");
                     scanner.nextLine();
                     scanner.nextLine();
 
-                    System.out.print("Enter new first name: ");
+                    System.out.print("\tEnter new first name: ");
                     String newFirstName = scanner.next();
-                    System.out.print("Enter new last name: ");
+                    System.out.print("\tEnter new last name: ");
                     String newLastName = scanner.next();
-                    System.out.print("Enter new middle name: ");
+                    System.out.print("\tEnter new middle name: ");
                     String newMiddleName = scanner.next();
 
                     // Update the student's name
@@ -705,36 +698,36 @@ public class UniversityManagementSystem {
                     student.setName(fullName);
                     break;
                 case 2:
-                    System.out.print("Enter new age: ");
+                    System.out.print("\tEnter new age: ");
                     int newAge = scanner.nextInt();
                     student.setAge(newAge);
                     break;
                 case 3:
-                    System.out.print("Enter new address: ");
+                    System.out.print("\tEnter new address: ");
                     scanner.nextLine(); // Consume newline
                     String newAddress = scanner.nextLine();
                     student.setAddress(newAddress);
                     break;
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
                     return;
             }
 
             // Confirm changes
-            System.out.println("Updated Details:");
-            System.out.println("Name: " + student.getName());
-            System.out.println("Age: " + student.getAge());
-            System.out.println("Address: " + student.getAddress());
-            System.out.println();
-            System.out.print("Confirm changes? (yes/no): ");
+            System.out.println(ANSI_GREEN + "Updated Details:" + ANSI_RESET);
+            System.out.println("\t\tName: " + student.getName());
+            System.out.println("\t\tAge: " + student.getAge());
+            System.out.println("\t\tAddress: " + student.getAddress());
+            System.out.println("+----------------------------------------+");
+            System.out.print("\tConfirm changes? (yes/no): ");
             String confirm = scanner.next();
             if (confirm.equalsIgnoreCase("yes")) {
-                System.out.println("Changes confirmed.");
+                System.out.println(ANSI_GREEN + "\tChanges confirmed." + ANSI_RESET);
             } else {
-                System.out.println("Changes discarded.");
+                System.out.println(ANSI_GREEN + "\tChanges discarded." + ANSI_RESET);
             }
         } else {
-            System.out.println("Student not found.");
+            System.out.println(ANSI_RED + "\tStudent not found." + ANSI_RESET);
             System.out.println();
         }
     }
@@ -745,12 +738,14 @@ public class UniversityManagementSystem {
         Instructor instructor = findInstructorById(id);
         if (instructor != null) {
             // Display instructor details
-            System.out.println("\tCurrent Details:");
-            System.out.println("\tName: " + instructor.getName());
-            System.out.println("\tAge: " + instructor.getAge());
-            System.out.println("\tAddress: " + instructor.getAddress());
+            System.out.println(ANSI_CYAN + "\tCurrent Details:" + ANSI_RESET);
+            System.out.println("\t\tName: " + instructor.getName());
+            System.out.println("\t\tAge: " + instructor.getAge());
+            System.out.println("\t\tAddress: " + instructor.getAddress());
 
             // Prompt for editing
+            System.out.println();
+            System.out.println("+---------------------------+");
             System.out.println("\t1. Edit Name");
             System.out.println("\t2. Edit Age");
             System.out.println("\t3. Edit Address");
@@ -760,7 +755,8 @@ public class UniversityManagementSystem {
             switch (choice) {
                 case 1:
                     System.out.println("\tEdit instructor information.");
-                    System.out.println("\n\tPlease fill all the information needed. Fields with '*' are required.");
+                    System.out.println(ANSI_RED
+                            + "\n\tPlease fill all the information needed. Fields with '*' are required." + ANSI_RESET);
                     System.out.println("\tPress enter to continue...");
                     scanner.nextLine();
                     scanner.nextLine();
@@ -788,81 +784,77 @@ public class UniversityManagementSystem {
                     instructor.setAddress(newAddress);
                     break;
                 default:
-                    System.out.println("Invalid choice!");
+                    System.out.println(ANSI_RED + "\tInvalid choice!" + ANSI_RESET);
                     return;
             }
 
             // Confirm changes
-            System.out.println("Updated Details:");
-            System.out.println("Name: " + instructor.getName());
-            System.out.println("Age: " + instructor.getAge());
-            System.out.println("Address: " + instructor.getAddress());
-            System.out.println();
-            System.out.print("Confirm changes? (yes/no): ");
+            System.out.println(ANSI_GREEN + "\tUpdated Details:" + ANSI_RESET);
+            System.out.println("\t\tName: " + instructor.getName());
+            System.out.println("\t\tAge: " + instructor.getAge());
+            System.out.println("\t\tAddress: " + instructor.getAddress());
+            System.out.println("+----------------------------------------+");
+            System.out.print("\tConfirm changes? (yes/no): ");
             String confirm = scanner.next();
             if (confirm.equalsIgnoreCase("yes")) {
-                System.out.println("Changes confirmed.");
+                System.out.println(ANSI_GREEN + "\tChanges confirmed." + ANSI_RESET);
             } else {
-                System.out.println("Changes discarded.");
+                System.out.println(ANSI_GREEN + "\tChanges discarded." + ANSI_RESET);
             }
         } else {
-            System.out.println("Instructor not found.");
+            System.out.println(ANSI_RED + "\tInstructor not found." + ANSI_RESET);
             System.out.println();
         }
     }
 
     private static void editSubject() {
-        System.out.print("Enter subject code to edit: ");
+        System.out.print("\tEnter subject code to edit: ");
         String code = scanner.next();
         Subject subject = findSubjectByCode(code);
         if (subject != null) {
             // Display subject details
-            System.out.println("Current Details:");
-            System.out.println("Name: " + subject.getName());
-            System.out.println("Subject Description: " + subject.getdescription());
-            System.out.println("Code: " + subject.getCode());
+            System.out.println(ANSI_GREEN + "\tCurrent Details:" + ANSI_RESET);
+            System.out.println("\t\tName: " + subject.getName());
+            System.out.println("\t\tCode: " + subject.getCode());
 
             // Prompt for editing
-            System.out.print("Enter new subject name: ");
+            System.out.println();
+            System.out.print("\tEnter new subject name: ");
             scanner.nextLine(); // Consume newline
             String newName = scanner.nextLine();
             subject.setName(newName);
-            System.out.print("Enter new subject description: ");
-            scanner.nextLine(); // Consume newline
-            String newDescription = scanner.nextLine();
-            subject.setDescription(newDescription);
 
             // Confirm changes
-            System.out.println("Updated Details:");
-            System.out.println("Name: " + subject.getName());
-            System.out.println("Code: " + subject.getCode());
-            System.out.println();
-            System.out.print("Confirm changes? (yes/no): ");
-            String confirm = scanner.next();
+            System.out.println(ANSI_GREEN + "Updated Details:" + ANSI_RESET);
+            System.out.println("\t\tName: " + subject.getName());
+            System.out.println("\t\tCode: " + subject.getCode());
+            System.out.println("+----------------------------------------+");
+            System.out.print("\tConfirm changes? (yes/no): ");
+            String confirm = scanner.next().toLowerCase();
             if (confirm.equalsIgnoreCase("yes")) {
-                System.out.println("Changes confirmed.");
+                System.out.println(ANSI_GREEN + "\tChanges confirmed." + ANSI_RESET);
             } else {
-                System.out.println("Changes discarded.");
+                System.out.println(ANSI_GREEN + "\tChanges discarded." + ANSI_RESET);
             }
         } else {
-            System.out.println("Subject not found.");
+            System.out.println(ANSI_RED + "\tSubject not found." + ANSI_RESET);
             System.out.println();
         }
-    }
-
-    private static Instructor findInstructorById(String id) {
-        for (Instructor instructor : instructors) {
-            if (instructor.getId().equals(id)) {
-                return instructor;
-            }
-        }
-        return null;
     }
 
     private static Student findStudentById(String id) {
         for (Student student : students) {
             if (student.getId().equals(id)) {
                 return student;
+            }
+        }
+        return null;
+    }
+
+    private static Instructor findInstructorById(String id) {
+        for (Instructor instructor : instructors) {
+            if (instructor.getId().equals(id)) {
+                return instructor;
             }
         }
         return null;
@@ -880,4 +872,5 @@ public class UniversityManagementSystem {
     public static void border() {
         System.out.println("+" + "-".repeat(138) + "+");
     }
+
 }
