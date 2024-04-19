@@ -1,18 +1,25 @@
 import java.util.*;
 
 public class MenuTable {
-    private List<Drink> orderList;
+    private Queue<Drink> orderQueue;
     
     public MenuTable() {
-        this.orderList = new ArrayList<>();
+        this.orderQueue = new LinkedList<>();
     }
     
-    public List<Drink> getOrderList() {
-        return orderList;
+    public Queue<Drink> getOrderQueue() {
+        return orderQueue;
     }
     
-    public void setOrderList(List<Drink> orderList) {
-        this.orderList = orderList;
+    public void setOrderList(Queue<Drink> orderQueue) {
+        this.orderQueue = orderQueue;
+    }
+
+    public void displayOrderQueue() {
+        System.out.println("Current Orders:");
+        for (Drink drink : orderQueue) {
+            System.out.println(drink.getName());
+        }
     }
 
     public static void main(String[] args) {
@@ -69,7 +76,7 @@ public class MenuTable {
             }
             System.out.println();
 
-            List<Drink> orderList = menuTable.getOrderList();
+            Queue<Drink> orderQueue = menuTable.getOrderQueue();
             double totalCost = 0;
 
             System.out.println("Order Number #(number in queue):");
@@ -82,13 +89,13 @@ public class MenuTable {
 
             if (userInput.equalsIgnoreCase("confirm")) {
                 System.out.println("Finalized Order:");
-                for (Drink drink : orderList) {
+                for (Drink drink : orderQueue) {
                     System.out.println(drink.getName() + " - " + drink.getPrice() + " PHP");
                 }
                 System.out.println("Total Cost: " + totalCost + " PHP");
                 break;
             } else if (userInput.equalsIgnoreCase("void")) {
-                menuTable.setOrderList(new ArrayList<>()); 
+                menuTable.setOrderList(new LinkedList<>()); 
                 totalCost = 0;
                 System.out.println("Order voided.");
                 continue;
@@ -100,7 +107,7 @@ public class MenuTable {
                 for (List<Drink> drinks : menu.values()) {
                     for (Drink drink : drinks) {
                         if (drink.getId().equalsIgnoreCase(productId)) {
-                            orderList.add(drink);
+                            orderQueue.add(drink);
                             totalCost += drink.getPrice();
                             found = true;
                             break;
@@ -116,7 +123,7 @@ public class MenuTable {
             }
 
             System.out.println("\nCurrent Order:");
-            for (Drink drink : orderList) {
+            for (Drink drink : orderQueue) {
                 System.out.println(drink.getName() + " - " + drink.getPrice() + " PHP");
             }
             System.out.println();
@@ -125,27 +132,34 @@ public class MenuTable {
             System.out.println("\nOptions:");
             System.out.println("1. Confirm");
             System.out.println("2. Void");
-            System.out.println("3. Return");
+            System.out.println("3. View Queue");
+            System.out.println("4. Return");
             System.out.print("Choose an option: ");
             String option = scanner.nextLine();
-            
-            if (option.equals("1")) {
-                System.out.println("Finalized Order:");
-                for (Drink drink : orderList) {
-                    System.out.println(drink.getName() + " - " + drink.getPrice() + " PHP");
-                }
-                System.out.println("Total Cost: " + totalCost + " PHP");
-                break;
-            } else if (option.equals("2")) {
-                menuTable.setOrderList(new ArrayList<>());
-                totalCost = 0;
-                System.out.println("Order voided.");
-                continue;
-            } else if (option.equals("3")) {
-                continue;
-            } else {
-                System.out.println("Invalid option.");
+
+            switch (option) {
+                case "1":
+                    System.out.println("Finalized Order:");
+                    for (Drink drink : orderQueue) {
+                        System.out.println(drink.getName() + " - " + drink.getPrice() + " PHP");
+                    }
+                    System.out.println("Total Cost: " + totalCost + " PHP");
+                    break;
+                case "2":
+                    menuTable.setOrderList(new LinkedList<>());
+                    totalCost = 0;
+                    System.out.println("Order voided.");
+                    continue;
+                case "3":
+                    System.out.println();
+                    menuTable.displayOrderQueue();
+                    System.out.println();
+                case "4":
+                    continue;
+                default:
+                    System.out.println("Invalid option.");
             }
+
         }
     }
 }
