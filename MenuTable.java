@@ -22,7 +22,7 @@ public class MenuTable {
         }
     }
 
-    public static void main(String[] args) {
+    public static void placeOrder() {
         Map<String, List<Drink>> menu = new LinkedHashMap<>();
  
         menu.put("ICED COFFEE", Arrays.asList(
