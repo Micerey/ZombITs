@@ -1,17 +1,18 @@
 import java.util.*;
 
 public class MenuTable {
+    private Scanner scanner = new Scanner(System.in);
     private Queue<Drink> orderQueue;
-    
+
     public MenuTable() {
-        this.orderQueue = new LinkedList<>();
+        orderQueue = new LinkedList<>();
     }
-    
+
     public Queue<Drink> getOrderQueue() {
         return orderQueue;
     }
-    
-    public void setOrderList(Queue<Drink> orderQueue) {
+
+    public void setOrderQueue(Queue<Drink> orderQueue) {
         this.orderQueue = orderQueue;
     }
 
@@ -22,90 +23,63 @@ public class MenuTable {
         }
     }
 
-    public static void placeOrder() {
+    public void placeOrder() {
         Map<String, List<Drink>> menu = new LinkedHashMap<>();
-     
+
         menu.put("ICED COFFEE", Arrays.asList(
-            new Drink("A1", "IC BRUSKO"), new Drink("A2", "IC MACCHIATO"), new Drink("A3", "IC MOCA"),
-            new Drink("A4", "IC VANILLA"), new Drink("A5", "IC FUDGE"), new Drink("A6", "IC MATCHA"),
-            new Drink("A7", "IC KARAMEL"), new Drink("A8", "IC WHITECHOCO"), new Drink("A9", "IC VIETNAMESE")
+                new Drink("A1", "IC BRUSKO"), new Drink("A2", "IC MACCHIATO"), new Drink("A3", "IC MOCA"),
+                new Drink("A4", "IC VANILLA"), new Drink("A5", "IC FUDGE"), new Drink("A6", "IC MATCHA"),
+                new Drink("A7", "IC KARAMEL"), new Drink("A8", "IC WHITECHOCO"), new Drink("A9", "IC VIETNAMESE")
         ));
-        
+
         menu.put("PRAF", Arrays.asList(
-            new Drink("B1", "P COOKIES&CREAM"), new Drink("B2", "P TARO"), new Drink("B3", "P MATCHA"),
-            new Drink("B4", "P STRAWBERRY"), new Drink("B5", "P CHOCOLATE"), new Drink("B6", "P MELON DEW"),
-            new Drink("B7", "P AVOCADO"), new Drink("B8", "P MANGO"), new Drink("B9", "P BANANA")
+                new Drink("B1", "P COOKIES&CREAM"), new Drink("B2", "P TARO"), new Drink("B3", "P MATCHA"),
+                new Drink("B4", "P STRAWBERRY"), new Drink("B5", "P CHOCOLATE"), new Drink("B6", "P MELON DEW"),
+                new Drink("B7", "P AVOCADO"), new Drink("B8", "P MANGO"), new Drink("B9", "P BANANA")
         ));
-        
+
         menu.put("HOTBREW", Arrays.asList(
-            new Drink("C1", "HB BRUSKO"), new Drink("C2", "HB MACCHIATO"), new Drink("C3", "HB MOCA"),
-            new Drink("C4", "HB VANILLA"), new Drink("C5", "HB FUDGE"), new Drink("C6", "HB MATCHA"),
-            new Drink("C7", "HB KARAMEL"), new Drink("C8", "HB WHITECHOCO"), new Drink("C9", "HB VIETNAMESE")
+                new Drink("C1", "HB BRUSKO"), new Drink("C2", "HB MACCHIATO"), new Drink("C3", "HB MOCA"),
+                new Drink("C4", "HB VANILLA"), new Drink("C5", "HB FUDGE"), new Drink("C6", "HB MATCHA"),
+                new Drink("C7", "HB KARAMEL"), new Drink("C8", "HB WHITECHOCO"), new Drink("C9", "HB VIETNAMESE")
         ));
-    
+
         int maxDrinks = menu.values().stream().mapToInt(List::size).max().orElse(0);
-        Scanner scanner = new Scanner(System.in);
-    
-        MenuTable menuTable = new MenuTable();
-        
+
         boolean displayMenu = true; // Flag to control menu display
-    
+
         while (true) {
             if (displayMenu) {
-                // Display the menu only if the flag is true
-                for (String category : menu.keySet()) {
-                    System.out.printf("%-20s", category);
-                }
-                System.out.println();
-    
-                for (int i = 0; i < 20 * menu.size(); i++) {
-                    System.out.print("-");
-                }
-                System.out.println();
-                
-                for (int i = 0; i < maxDrinks; i++) {
-                    for (List<Drink> drinks : menu.values()) {
-                        if (i < drinks.size()) {
-                            Drink drink = drinks.get(i);
-                            System.out.printf("%-20s", drink.getId() + ": " + drink.getName());
-                        } else {
-                            System.out.printf("%-20s", "");
-                        }
-                    }
-                    System.out.println();
-                }
-    
-                for (int i = 0; i < 20 * menu.size(); i++) {
-                    System.out.print("-");
-                }
-                System.out.println();
+                // Display the menu...
             }
-    
-            Queue<Drink> orderQueue = menuTable.getOrderQueue();
+
             double totalCost = 0;
-    
+
             System.out.println("Order Number #(number in queue):");
             System.out.print("Enter Product ID (separated by spaces): ");
             String userInput = scanner.nextLine();
-    
+
             if (userInput.trim().isEmpty()) {
                 continue;
             }
-    
+
             if (userInput.equalsIgnoreCase("confirm")) {
                 System.out.println("Finalized Order:");
                 for (Drink drink : orderQueue) {
                     System.out.println(drink.getName() + " - " + drink.getPrice() + " PHP");
+                    totalCost += drink.getPrice();
                 }
                 System.out.println("Total Cost: " + totalCost + " PHP");
+                // Store the order in the MenuTable
+                addToOrderQueue(orderQueue);
                 break;
             } else if (userInput.equalsIgnoreCase("void")) {
-                menuTable.setOrderList(new LinkedList<>()); 
+                orderQueue.clear();
                 totalCost = 0;
                 System.out.println("Order voided.");
                 continue;
             }
-    
+
             String[] productIds = userInput.split(" ");
             for (String productId : productIds) {
                 boolean found = false;
@@ -125,22 +99,22 @@ public class MenuTable {
                 if (!found) {
                     System.out.println("Invalid product ID: " + productId);
                 }
-            }
-    
+            }   
+
             System.out.println("\nCurrent Order:");
             for (Drink drink : orderQueue) {
                 System.out.println(drink.getName() + " - " + drink.getPrice() + " PHP");
             }
             System.out.println();
             System.out.println("Total Cost: " + totalCost + " PHP");
-    
+
             System.out.println("\nOptions:");
             System.out.println("1. Confirm");
             System.out.println("2. Void");
             System.out.println("3. Return");
             System.out.print("Choose an option: ");
             String option = scanner.nextLine();
-    
+
             switch (option) {
                 case "1":
                     System.out.println("Finalized Order:");
@@ -148,53 +122,49 @@ public class MenuTable {
                         System.out.println(drink.getName() + " - " + drink.getPrice() + " PHP");
                     }
                     System.out.println("Total Cost: " + totalCost + " PHP");
-                    displayMenu = false;
-                    break;
+                    // Store the order in the MenuTable
+                    addToOrderQueue(orderQueue);
+                    return; // Return to the main menu
                 case "2":
-                    menuTable.setOrderList(new LinkedList<>());
+                    orderQueue.clear();
                     totalCost = 0;
                     System.out.println("Order voided.");
-                    continue;    
-                case "3":
                     continue;
+                case "3":
+                    return; // Return to the main menu
                 default:
                     System.out.println("Invalid option.");
             }
-    
+
             // After the switch cases, prompt the user to press enter to continue
             System.out.println("\nPress Enter to continue...");
             scanner.nextLine(); // Wait for the user to press enter
-    
-            // Print options after pressing enter
-            System.out.println("\nOptions:");
-            System.out.println("1. Confirm");
-            System.out.println("2. Void");
-            System.out.println("3. Return");
-            System.out.print("Choose an option: ");
-    
+
             // Set displayMenu flag to false to prevent displaying the menu again
             displayMenu = false;
         }
     }
-    
+
+    public void addToOrderQueue(Queue<Drink> drinks) {
+        orderQueue.addAll(drinks);
+    }
 }
-    
 
 class Drink {
     private String id;
     private String name;
     private double price;
-    
+
     public Drink(String id, String name) {
         this.id = id;
         this.name = name;
         this.price = getPriceFromMenu(name);
     }
-    
+
     public String getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -202,14 +172,14 @@ class Drink {
     public double getPrice() {
         return price;
     }
-    
+
     private double getPriceFromMenu(String name) {
         if (name.startsWith("IC")) {
-            return 40; 
+            return 40;
         } else if (name.startsWith("P")) {
-            return 50; 
+            return 50;
         } else if (name.startsWith("HB")) {
-            return 35; 
+            return 35;
         }
         return 0;
     }
