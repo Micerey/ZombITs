@@ -1,5 +1,3 @@
-
-
 import java.util.Scanner;
 
 public class CafeSystemView {
@@ -7,28 +5,26 @@ public class CafeSystemView {
     private static Scanner scan = new Scanner(System.in);
     private static int choice;
     private static String[] options = { "1. Place Order \n2. View Queue \n0. Exit" };
+    private static MenuTable menuTable = new MenuTable();
 
     public static void main(String[] args) {
         displayOptions();
     }
-    
 
-    
-
-    private static void displayOptions() {
-        MenuTable menuTable = new MenuTable(); // Creating an instance of MenuTable
+    static void displayOptions() {
         do {
             System.out.println("Cafe System");
             printSeparator();
             printOptions();
             printSeparator();
             System.out.print("Enter choice: ");
-            int choice = scan.nextInt();
+            choice = scan.nextInt();
+            scan.nextLine(); // Consume newline character
             printSeparator();
 
             switch (choice) {
                 case 1:
-                    placeOrder();
+                    menuTable.placeOrder();
                     break;
 
                 case 2:
@@ -46,10 +42,6 @@ public class CafeSystemView {
         } while (choice != 0);
     }
 
-    private static void placeOrder() {
-        MenuTable.placeOrder();
-    }
-
     private static void printSeparator() {
         int separatorLength = 20 * options.length;
         for (int i = 0; i < separatorLength; i++) {
@@ -63,5 +55,4 @@ public class CafeSystemView {
             System.out.println(option);
         }
     }
-
 }
