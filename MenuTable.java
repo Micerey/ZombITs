@@ -71,7 +71,7 @@ public class MenuTable {
                 }
                 System.out.println("Total Cost: " + totalCost + " PHP");
                 // Store the order in the MenuTable
-                addToOrderQueue(orderQueue);
+                addToOrderQueue(new LinkedList<>(orderQueue));
                 break;
             } else if (userInput.equalsIgnoreCase("void")) {
                 orderQueue.clear();
@@ -116,15 +116,18 @@ public class MenuTable {
             String option = scanner.nextLine();
 
             switch (option) {
-                case "1":
+                case "1": // Confirm
                     System.out.println("Finalized Order:");
                     for (Drink drink : orderQueue) {
                         System.out.println(drink.getName() + " - " + drink.getPrice() + " PHP");
                     }
                     System.out.println("Total Cost: " + totalCost + " PHP");
-                    // Store the order in the MenuTable
-                    addToOrderQueue(orderQueue);
+                    
+                    // Store the confirmed order in the MenuTable
+                    addToOrderQueue(new LinkedList<>(Collections.singletonList(orderQueue.poll())));
+                    
                     return; // Return to the main menu
+
                 case "2":
                     orderQueue.clear();
                     totalCost = 0;
