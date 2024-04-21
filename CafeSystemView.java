@@ -1,4 +1,4 @@
-package View;
+
 
 import java.util.Scanner;
 
@@ -12,8 +12,10 @@ public class CafeSystemView {
         displayOptions();
     }
 
-    private static void displayOptions() {
+    
 
+    private static void displayOptions() {
+        MenuTable menuTable = new MenuTable(); // Creating an instance of MenuTable
         do {
             System.out.println("Cafe System");
             printSeparator();
@@ -29,7 +31,7 @@ public class CafeSystemView {
                     break;
 
                 case 2:
-                    System.out.println("method here...");
+                    menuTable.displayOrderQueue();
                     break;
 
                 case 0:
