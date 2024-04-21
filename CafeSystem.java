@@ -1,4 +1,4 @@
-package View;
+
 
 import java.util.*;
 
@@ -117,21 +117,25 @@ public class CafeSystem {
         Map<String, List<Drink>> menu = createMenu(); // Get the menu
         Order currentOrder = new Order(currentOrderNumber); // Order with current number
         boolean isOrderActive = true;
-
+    
         while (isOrderActive) {
             System.out.println("--------------------");
             System.out.println("Order Number #" + currentOrder.getOrderNumber() + ":");
             displayFullMenu(); // Display the complete menu when placing an order
             System.out.print("Enter Product ID (separated by spaces): ");
             String userInput = scanner.nextLine();
-
+    
             if (userInput.equalsIgnoreCase("confirm")) {
-                orderQueue.add(currentOrder); // Add the order to the queue
-                System.out.println("Order confirmed:");
-                for (Drink drink : currentOrder.getDrinks()) {
-                    System.out.println(" - " + drink.getName() + " (" + drink.getPrice() + " PHP)");
+                if (!currentOrder.getDrinks().isEmpty()) { // Check if there are drinks in the order
+                    orderQueue.add(currentOrder); // Add the order to the queue only if it's not empty
+                    System.out.println("Order confirmed:");
+                    for (Drink drink : currentOrder.getDrinks()) {
+                        System.out.println(" - " + drink.getName() + " (" + drink.getPrice() + " PHP)");
+                    }
+                    System.out.println("Total Cost: " + currentOrder.getTotalCost() + " PHP");
+                } else {
+                    System.out.println("No items in the current order. Order not confirmed.");
                 }
-                System.out.println("Total Cost: " + currentOrder.getTotalCost() + " PHP");
                 isOrderActive = false;
                 currentOrderNumber++; // Increment for the next order
             } else if (userInput.equalsIgnoreCase("void")) {
@@ -145,7 +149,6 @@ public class CafeSystem {
                     for (List<Drink> drinks : menu.values()) {
                         for (Drink drink : drinks) {
                             if (drink.getId().equalsIgnoreCase(productId)) {
-                                orderQueue.add(currentOrder);
                                 currentOrder.getDrinks().add(drink);
                                 System.out.println("Added: " + drink.getName());
                                 found = true;
@@ -158,7 +161,7 @@ public class CafeSystem {
                     }
                 }
             }
-
+    
             System.out.println("--------------------");
             System.out.println("Options:");
             System.out.println("1. Confirm");
@@ -167,14 +170,19 @@ public class CafeSystem {
             System.out.println("--------------------");
             System.out.println("Choose an option:");
             String option = scanner.nextLine();
-
+    
             switch (option) {
                 case "1":
-                    orderQueue.add(currentOrder);
-                    System.out.println("Order confirmed.");
+                if (!currentOrder.getDrinks().isEmpty()) { // Check if there are drinks in the order
+                    orderQueue.add(currentOrder); // Add the order to the queue only if it's not empty
+                    System.out.println("Order added to the queue.");
+                    System.out.println("Current order queue size: " + orderQueue.size());
                     isOrderActive = false;
                     currentOrderNumber++; // Increment for the next order
-                    break;
+                } else {
+                    System.out.println("No items in the current order. Order not confirmed.");
+                }
+                break;
                 case "2":
                     System.out.println("Order voided.");
                     currentOrder.getDrinks().clear();
@@ -188,6 +196,9 @@ public class CafeSystem {
             }
         }
     }
+    
+    
+    
 
     public void viewQueue() {
         System.out.println("--------------------");
@@ -197,9 +208,13 @@ public class CafeSystem {
             for (Drink drink : order.getDrinks()) {
                 System.out.println("  - " + drink.getName() + " (" + drink.getPrice() + " PHP)");
             }
+            System.out.println("Total Cost: " + order.getTotalCost() + " PHP"); // Print total cost
         }
         System.out.println("--------------------");
     }
+    
+    
+    
 
     public void start() {
         boolean isRunning = true;
