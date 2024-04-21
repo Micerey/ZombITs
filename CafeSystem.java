@@ -1,5 +1,3 @@
-
-
 import java.util.*;
 
 class Drink {
@@ -74,6 +72,7 @@ public class CafeSystem {
         System.out.println("--------------------");
         System.out.println("1. Place Order");
         System.out.println("2. View Queue");
+        System.out.println("3. Remove an Order");
         System.out.println("0. Exit");
         System.out.println("--------------------");
     }
@@ -212,6 +211,16 @@ public class CafeSystem {
         }
         System.out.println("--------------------");
     }
+
+    public void removeFirstOrder() {
+        if (!orderQueue.isEmpty()) {
+            Order removedOrder = orderQueue.poll(); // Removes and returns the first order in the queue
+            System.out.println("Order #" + removedOrder.getOrderNumber() + " has been removed from the queue.");
+        } else {
+            System.out.println("The order queue is empty. No orders to remove.");
+        }
+    }
+    
     
     
     
@@ -231,6 +240,10 @@ public class CafeSystem {
                 case "2":
                     viewQueue(); // View current orders
                     break;
+                case "3":
+                    removeFirstOrder(); // Remove the first order from the queue
+                    break;
+
                 case "0":
                     System.out.println("Exiting...");
                     isRunning = false; // Stop the program
